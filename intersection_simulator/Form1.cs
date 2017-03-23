@@ -554,6 +554,16 @@ namespace car_simulation
                 numericUpDown1.Value = 30;
             zoomValue = Convert.ToInt16(numericUpDown1.Value);
         }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            speed_limit = Convert.ToDouble(numericUpDown2.Value);
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+            spawn_speed = Convert.ToDouble(numericUpDown3.Value);
+        }
     }
 
     public class Vehicle
