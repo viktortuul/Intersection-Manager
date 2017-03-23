@@ -92,6 +92,7 @@ namespace car_simulation
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // comment
         }
 
         private void timer1_Tick(object sender, EventArgs e)
