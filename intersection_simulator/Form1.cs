@@ -92,7 +92,7 @@ namespace car_simulation
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // comment
+            // Ny GitIgnore. Rensat i Shell
         }
 
         private void timer1_Tick(object sender, EventArgs e)
