@@ -12,9 +12,12 @@ namespace car_simulation
 {
     public partial class MainFrame : Form
     {
-        // Time
+
+        // Init time parameters
         double Time_Global = 0;
-        double dt = 0.01;
+        double accumulatedTime, totalAccumulatedTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
+        double dt;
+        //double dt = 0.01;
 
         // origin cordinates
         int o_x = 400;
@@ -82,25 +85,46 @@ namespace car_simulation
         Graphics g;
         Bitmap bm = new Bitmap(1000, 1000);
 
+
+
         // random operator 
         Random rnd = new Random();
 
         public MainFrame()
         {
             InitializeComponent();
-        }
 
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // add the vehicles to the list that will be get speed requests
-            apply_trafficmanager();
 
-            // perform actions on each car (choose a controller)
-            controller_distance();
+            // update time passed dt
+            dt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
+            totalAccumulatedTime += dt;
+            accumulatedTime += dt;
+
+          //  Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
+            if (accumulatedTime > 0.5)
+            {
+                // add the vehicles to the list that will be get speed requests
+                apply_trafficmanager();
+
+                // perform actions on each car (choose a controller)
+                controller_distance();
+
+                // remove vehicles out of bounds
+                remove_vehicles();
+
+                accumulatedTime = 0;
+            
+                // update global timer
+            label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
+            Time_Global += dt / 1000;
+            }
 
             // clear graphics
             clear_graphics();
@@ -129,7 +153,7 @@ namespace car_simulation
                 zoomFactor = zoomValue;
             else
                 zoomFactor = 1;
-
+                
             // origin cordinates
             o_x = 400 / zoomFactor;
             o_y = 400 / zoomFactor;
@@ -137,12 +161,7 @@ namespace car_simulation
             // update image
             pictureBox1.Image = bm;
 
-            // remove vehicles out of bounds
-            remove_vehicles();
 
-            // update global timer
-            label6.Text = "Time: " + Convert.ToString(Math.Round(Time_Global, 1));
-            Time_Global += dt;
         }
 
         private void apply_trafficmanager()
@@ -252,10 +271,10 @@ namespace car_simulation
                 else p = p_bus_g;
             }
             g.DrawLine(p,
-                o_x + Convert.ToInt32(vehicle.x - vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
-                o_y + Convert.ToInt32(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)),
-                o_x + Convert.ToInt32(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
-                o_y + Convert.ToInt32(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)));
+                o_x + Convert.ToInt64(vehicle.x - vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
+                o_y + Convert.ToInt64(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)),
+                o_x + Convert.ToInt64(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
+                o_y + Convert.ToInt64(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)));
 
             /*
             g.DrawEllipse(p_road,
@@ -276,8 +295,8 @@ namespace car_simulation
             if (spawn_ID >= 100) align_x = 10; // avoid text on road
 
             PointF drawPoint = new PointF(
-              Convert.ToInt32(o_x + vehicle.x - 20 * Math.Sin(vehicle.angle) - align_x),
-              Convert.ToInt32(o_y + vehicle.y + 17 * Math.Cos(vehicle.angle) - align_y));
+              Convert.ToInt64(o_x + vehicle.x - 20 * Math.Sin(vehicle.angle) - align_x),
+              Convert.ToInt64(o_y + vehicle.y + 17 * Math.Cos(vehicle.angle) - align_y));
 
             // Draw string to screen.
             if (!zoom)
@@ -314,9 +333,9 @@ namespace car_simulation
 
 
             // Draw dashed white lines
-                // p_dashed.DashPattern = dashValues;
-                //g.DrawLine(p_dashed, 6, o_y, 995, o_y);
-                // g.DrawLine(p_dashed, o_x, 6, o_y, 1000);
+            // p_dashed.DashPattern = dashValues;
+            //g.DrawLine(p_dashed, 6, o_y, 995, o_y);
+            // g.DrawLine(p_dashed, o_x, 6, o_y, 1000);
         }
 
         private void clear_graphics()
@@ -578,13 +597,18 @@ namespace car_simulation
             spawn_speed = Convert.ToDouble(numericUpDown3.Value);
         }
 
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void timer_print_Tick(object sender, EventArgs e)
         {
             string present_vehicles = "";
             foreach (Vehicle vehicle in vehicles)
             {
                 // present vehicle states
-                present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdist: " + Math.Round(vehicle.dist, MidpointRounding.AwayFromZero) + "\tspeed: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + "\tT: " + Math.Round(vehicle.T, 1) + "\tPassed: " + Convert.ToString(vehicle.passed) + Environment.NewLine); 
+                present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdist: " + Math.Round(vehicle.dist, MidpointRounding.AwayFromZero) + "\tspeed: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + "\tT: " + Math.Round(vehicle.T, 1) + "\tPassed: " + Convert.ToString(vehicle.passed) + Environment.NewLine);
             }
             textBox1.Text = present_vehicles;
 
@@ -594,6 +618,16 @@ namespace car_simulation
                 present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\td: " + Math.Round(vehicle.dist) + "\tv: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + " (" + Math.Round(vehicle.speed_request, MidpointRounding.AwayFromZero) + ")\t\tT: " + Math.Round(vehicle.T, 1) + "\ttraj: " + vehicle.route + Environment.NewLine);
             }
             textBox2.Text = present_vehicles;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -73,7 +73,7 @@
             // buttonM
             // 
             this.buttonM.Location = new System.Drawing.Point(69, 72);
-            this.buttonM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonM.Margin = new System.Windows.Forms.Padding(2);
             this.buttonM.Name = "buttonM";
             this.buttonM.Size = new System.Drawing.Size(50, 25);
             this.buttonM.TabIndex = 0;
@@ -85,7 +85,7 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Location = new System.Drawing.Point(406, 3);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(805, 805);
             this.pictureBox1.TabIndex = 2;
@@ -240,7 +240,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(69, 97);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 25);
             this.button1.TabIndex = 16;
@@ -379,6 +379,7 @@
             this.label6.Size = new System.Drawing.Size(47, 13);
             this.label6.TabIndex = 20;
             this.label6.Text = "Time [s]:";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // textBox1
             // 
@@ -388,6 +389,7 @@
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(392, 155);
             this.textBox1.TabIndex = 22;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
@@ -397,6 +399,7 @@
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox2.Size = new System.Drawing.Size(392, 192);
             this.textBox2.TabIndex = 23;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // timer_print
             // 
@@ -416,7 +419,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainFrame";
             this.Text = "Intersection Simulator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
