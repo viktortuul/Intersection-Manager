@@ -43,3 +43,12 @@ C:\Users\Vikto\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\
 C:\Users\Vikto\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\intersection_simulator.Properties.Resources.resources
 C:\Users\Vikto\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\car_simulation.csproj.GenerateResource.Cache
 C:\Users\Vikto\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\car_simulation.MainFrame.resources
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\bin\Debug\intersection_simulator.exe.config
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\bin\Debug\intersection_simulator.exe
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\bin\Debug\intersection_simulator.pdb
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\car_simulation.csprojResolveAssemblyReference.cache
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\car_simulation.MainFrame.resources
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\intersection_simulator.Properties.Resources.resources
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\car_simulation.csproj.GenerateResource.Cache
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\intersection_simulator.exe
+C:\Users\johnd\OneDrive\Documents\GitHub\Intersection-Manager\intersection_simulator\obj\Debug\intersection_simulator.pdb

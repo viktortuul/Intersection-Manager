@@ -29,7 +29,7 @@ namespace car_simulation
         List<Vehicle> vehicles_ghost = new List<Vehicle>();
 
         // vehicle spawn parameters
-        double spawn_speed = 15; // spawn speed
+        double spawn_speed = 10; // spawn speed
         int spawn_ID = 0; // vehicle spawn ID
         int last_ID = 0; // last ID (for the ghost vehicle)
         string last_spawn = ""; // last spawn position
@@ -66,7 +66,7 @@ namespace car_simulation
         bool show_ghost = false; // show ghost vehicles toggle
         bool zoom = false; // show zoom
         int zoomFactor = 1; // zoom factor
-        int zoomValue = 18;
+        int zoomValue = 10;
         int laneWidth = 8; // lane width, meters
 
         // graphics
@@ -285,8 +285,12 @@ namespace car_simulation
         }
         private void draw_road()
         {
-            p_dashed.DashPattern = dashValues;
 
+            // Draw Road
+            g.DrawLine(p_roads, 0, o_y, 1000, o_y);
+            g.DrawLine(p_roads, o_x, 0, o_y, 1000);
+
+            // Draw road outlines
             g.DrawLine(p_road, 0, o_y - laneWidth, o_x - laneWidth, o_y - laneWidth);
             g.DrawLine(p_road, o_x + laneWidth, o_y - laneWidth, 1000, o_y - laneWidth);
             g.DrawLine(p_road, 0, o_y + laneWidth, o_x - laneWidth, o_y + laneWidth);
@@ -297,10 +301,8 @@ namespace car_simulation
             g.DrawLine(p_road, o_x + laneWidth, o_y + laneWidth, o_x + laneWidth, 1000);
             g.DrawEllipse(p_road, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound), 2 * simulation_bound, 2 * simulation_bound);
 
-            g.DrawLine(p_roads, 0, o_y, 1000, o_y);
-            g.DrawLine(p_roads, o_x, 0, o_y, 1000);
 
-            // Dubbla heldragna väglinjer
+            // Draw double white lines
             g.DrawLine(p_thin, 0, o_y - 1, o_x - laneWidth, o_y - 1);
             g.DrawLine(p_thin, o_x + laneWidth, o_y - 1, 1000, o_y - 1);
             g.DrawLine(p_thin, 0, o_y + 1, o_x - laneWidth, o_y + 1);
@@ -310,8 +312,9 @@ namespace car_simulation
             g.DrawLine(p_thin, o_x + 1, 0, o_x + 1, o_y - laneWidth);
             g.DrawLine(p_thin, o_x + 1, o_y + laneWidth, o_x + 1, 1000);
 
-            // Sträckade väglinjer, symmetriska om zoomFactor = 18
 
+            // Draw dashed white lines
+                // p_dashed.DashPattern = dashValues;
                 //g.DrawLine(p_dashed, 6, o_y, 995, o_y);
                 // g.DrawLine(p_dashed, o_x, 6, o_y, 1000);
         }
