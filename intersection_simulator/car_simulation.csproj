@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoubleBuffered.cs" />
+    <Compile Include="g\SmoothingMode.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

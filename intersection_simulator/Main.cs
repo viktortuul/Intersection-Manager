@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -73,6 +74,7 @@ namespace car_simulation
         int laneWidth = 8; // lane width, meters
 
         // graphics
+
         float[] dashValues = { 4, 6 };
         Pen p_dashed = new Pen(Color.White, 1);
         Pen p_thin = new Pen(Color.White, 1);
@@ -83,33 +85,50 @@ namespace car_simulation
         Pen p_bus = new Pen(Color.Red, 5);
         Pen p_bus_g = new Pen(Color.Gray, 5);
         Graphics g;
+        bool init = false;
+
+        
         Bitmap bm = new Bitmap(1000, 1000);
 
-
-
+    
         // random operator 
         Random rnd = new Random();
 
         public MainFrame()
         {
             InitializeComponent();
-
         }
+        
+
         private void Form1_Load(object sender, EventArgs e)
         {
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
 
             // update time passed dt
             dt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
             totalAccumulatedTime += dt;
             accumulatedTime += dt;
 
-          //  Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
-            if (accumulatedTime > 0.5)
+            
+
+            // Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
+            if (accumulatedTime > 500)
             {
+                if (zoom)
+                    zoomFactor = zoomValue;
+                else
+                    zoomFactor = 1;
+
+                // origin cordinates
+                o_x = 400 / zoomFactor;
+                o_y = 400 / zoomFactor;
+
+
                 // add the vehicles to the list that will be get speed requests
                 apply_trafficmanager();
 
@@ -120,15 +139,15 @@ namespace car_simulation
                 remove_vehicles();
 
                 accumulatedTime = 0;
-            
-                // update global timer
-            label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
-            Time_Global += dt / 1000;
+
             }
+                // update global timer
+                label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
+                Time_Global += dt / 1000;
 
             // clear graphics
             clear_graphics();
-
+            
             // draw the environment
             draw_road();
 
@@ -149,15 +168,7 @@ namespace car_simulation
                 if (show_ghost) draw_vehicle(vehicle);
             }
 
-            if (zoom)
-                zoomFactor = zoomValue;
-            else
-                zoomFactor = 1;
-                
-            // origin cordinates
-            o_x = 400 / zoomFactor;
-            o_y = 400 / zoomFactor;
-
+         
             // update image
             pictureBox1.Image = bm;
 
@@ -242,19 +253,11 @@ namespace car_simulation
         private int get_tajectory_index(Vehicle vehicle)
         {
             int index = 0;
-            if (vehicle.route == "NW") index = 0;
-            if (vehicle.route == "NS") index = 1;
-            if (vehicle.route == "NE") index = 2;
-            if (vehicle.route == "EN") index = 3;
-            if (vehicle.route == "EW") index = 4;
-            if (vehicle.route == "ES") index = 5;
-            if (vehicle.route == "SE") index = 6;
-            if (vehicle.route == "SN") index = 7;
-            if (vehicle.route == "SW") index = 8;
-            if (vehicle.route == "WS") index = 9;
-            if (vehicle.route == "WE") index = 10;
-            if (vehicle.route == "WN") index = 11;
+            String[] route = {"NW", "NS", "NE", "EN", "EW", "ES", "SE", "SW", "WS", "WE", "WN"};
+            for (int i = 0; i < route.Count(); i++)
+                if (vehicle.route == "NW") index = i;
             return index;
+            
         }
 
         private void draw_vehicle(Vehicle vehicle)
@@ -270,6 +273,7 @@ namespace car_simulation
                 if (vehicle.mode == true) p = p_bus;
                 else p = p_bus_g;
             }
+
             g.DrawLine(p,
                 o_x + Convert.ToInt64(vehicle.x - vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
                 o_y + Convert.ToInt64(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)),
@@ -283,24 +287,26 @@ namespace car_simulation
                 2, 2); // vehicle dot position
             */
 
-            // Create string to draw.
-            string drawString = Convert.ToString(vehicle.ID);
-            // Create font and brush.
-            Font drawFont = new Font("Arial", 8);
-            SolidBrush drawBrush = new SolidBrush(Color.Black);
-
-            // Create point for upper-left corner of drawing.
-            int align_x = 6;
-            int align_y = 5;
-            if (spawn_ID >= 100) align_x = 10; // avoid text on road
-
-            PointF drawPoint = new PointF(
-              Convert.ToInt64(o_x + vehicle.x - 20 * Math.Sin(vehicle.angle) - align_x),
-              Convert.ToInt64(o_y + vehicle.y + 17 * Math.Cos(vehicle.angle) - align_y));
 
             // Draw string to screen.
-            if (!zoom)
+            if (zoomFactor < 5)
+            {
+                // Create string to draw.
+                string drawString = Convert.ToString(vehicle.ID);
+                // Create font and brush.
+                Font drawFont = new Font("Arial", 8);
+                SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+                // Create point for upper-left corner of drawing.
+                int align_x = 6;
+                int align_y = 5;
+                if (spawn_ID >= 100) align_x = 10; // avoid text on road
+                PointF drawPoint = new PointF(
+                  Convert.ToInt64(o_x + vehicle.x - 20 * Math.Sin(vehicle.angle) - align_x),
+                  Convert.ToInt64(o_y + vehicle.y + 17 * Math.Cos(vehicle.angle) - align_y));
+
                 g.DrawString(drawString, drawFont, drawBrush, drawPoint);
+            }
         }
         private void draw_road()
         {
@@ -341,9 +347,13 @@ namespace car_simulation
         private void clear_graphics()
         {
             g = Graphics.FromImage(bm);
-            g.Clear(Color.White);
+
+            // Zoom 
             g.ScaleTransform(zoomFactor, zoomFactor);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;//SmoothingMode.AntiAlias;
+
+            g.Clear(Color.White);
+           
         }
 
         private void remove_vehicles()
@@ -621,6 +631,11 @@ namespace car_simulation
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }
