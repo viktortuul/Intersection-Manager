@@ -257,6 +257,13 @@ namespace car_simulation
                 o_x + Convert.ToInt32(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
                 o_y + Convert.ToInt32(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)));
 
+            /*
+            g.DrawEllipse(p_road,
+                Convert.ToInt32(o_x + vehicle.x - 1), 
+                Convert.ToInt32(o_x + vehicle.y - 1), 
+                2, 2); // vehicle dot position
+            */
+
             // Create string to draw.
             string drawString = Convert.ToString(vehicle.ID);
             // Create font and brush.
@@ -264,9 +271,13 @@ namespace car_simulation
             SolidBrush drawBrush = new SolidBrush(Color.Black);
 
             // Create point for upper-left corner of drawing.
+            int align_x = 6;
+            int align_y = 5;
+            if (spawn_ID >= 100) align_x = 10; // avoid text on road
+
             PointF drawPoint = new PointF(
-              o_x + Convert.ToInt32(vehicle.x - 25 * Math.Sin(vehicle.angle)),
-              o_y + Convert.ToInt32(vehicle.y + 25 * Math.Cos(vehicle.angle)));
+              Convert.ToInt32(o_x + vehicle.x - 20 * Math.Sin(vehicle.angle) - align_x),
+              Convert.ToInt32(o_y + vehicle.y + 17 * Math.Cos(vehicle.angle) - align_y));
 
             // Draw string to screen.
             if (!zoom)
