@@ -17,7 +17,7 @@ namespace car_simulation
         // Init time parameters
         double Time_Global = 0;
         double accumulatedTime, totalAccumulatedTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
-        double dt;
+        public double dt;
         //double dt = 0.01;
 
         // origin cordinates
@@ -155,7 +155,7 @@ namespace car_simulation
             foreach (Vehicle vehicle in vehicles)
             {
                 // update vehicle state
-                vehicle.update_state();
+                vehicle.update_state(dt/1000);
 
                 // draw vehicle
                 draw_vehicle(vehicle);
@@ -164,7 +164,7 @@ namespace car_simulation
             // update vehicle states (ghost vehicles)
             foreach (Vehicle vehicle in vehicles_ghost)
             {
-                vehicle.update_state();
+                vehicle.update_state(dt);
                 if (show_ghost) draw_vehicle(vehicle);
             }
 
@@ -274,6 +274,8 @@ namespace car_simulation
                 else p = p_bus_g;
             }
 
+            Console.Write("\n Angle: " + Convert.ToString(vehicle.angle));
+            
             g.DrawLine(p,
                 o_x + Convert.ToInt64(vehicle.x - vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
                 o_y + Convert.ToInt64(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)),
@@ -660,7 +662,8 @@ namespace car_simulation
         protected double turningTime; // parameters while turning
         protected double curvatureRadius = 8;
         protected bool enteredIntersection = false;
-        public double dt = 0.01; // time step
+        //public double dt = 0.01; // time step
+        protected double dt;
 
         // regulator parameters
         public double speed_prev;
@@ -780,13 +783,15 @@ namespace car_simulation
             // empty vehicle
         }
 
-        public void update_state()
+        public void update_state(double dt)
         {
             speed_control();
+            this.dt = dt;
+            Console.Write("\n dt: " + Convert.ToString(dt));
             vx = speed * Math.Cos(angle);
             vy = speed * Math.Sin(angle);
-            x += vx * dt;
-            y += vy * dt;
+            x += vx * this.dt;
+            y += vy * this.dt;
             dist = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
             T = dist / speed;
             turn_control();

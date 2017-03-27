@@ -94,7 +94,7 @@
             // 
             // timer_simulation
             // 
-            this.timer_simulation.Interval = 10;
+            this.timer_simulation.Interval = 1;
             this.timer_simulation.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label2
@@ -410,7 +410,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 709);
+            this.ClientSize = new System.Drawing.Size(1077, 704);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label6);
