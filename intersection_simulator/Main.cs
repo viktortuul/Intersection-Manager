@@ -68,6 +68,7 @@ namespace car_simulation
 
         // visual parameters
         bool show_ghost = false; // show ghost vehicles toggle
+        bool showZones = false;
         bool zoom = false; // show zoom
         int zoomFactor = 1; // zoom factor
         int zoomValue = 10;
@@ -110,9 +111,9 @@ namespace car_simulation
 
 
             // update time passed dt
-            dt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
-            totalAccumulatedTime += dt;
-            accumulatedTime += dt;
+            //dt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
+            //totalAccumulatedTime += dt;
+            //accumulatedTime += dt;
 
             
 
@@ -324,7 +325,21 @@ namespace car_simulation
             g.DrawLine(p_road, o_x - laneWidth, o_y + laneWidth, o_x - laneWidth, 1000);
             g.DrawLine(p_road, o_x + laneWidth, 0, o_x + laneWidth, o_y - laneWidth);
             g.DrawLine(p_road, o_x + laneWidth, o_y + laneWidth, o_x + laneWidth, 1000);
+
+            // Draw outer circle
             g.DrawEllipse(p_road, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound), 2 * simulation_bound, 2 * simulation_bound);
+
+            // Draw intersection zones
+            if (showZones) 
+            {
+
+            SolidBrush semiTransBrushGreen = new SolidBrush(Color.FromArgb(40, 0, 255, 0));
+            g.FillEllipse(semiTransBrushGreen, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound ), 2*simulation_bound,  2*simulation_bound);
+            
+            SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
+            g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - Math.Sqrt(2)*laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2)*laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
+            g.DrawEllipse(p_road, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
+            }
 
 
             // Draw double white lines
@@ -640,7 +655,15 @@ namespace car_simulation
 
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked)
+                showZones = true;
+            else
+                showZones = false;
+        }
+
+            private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
