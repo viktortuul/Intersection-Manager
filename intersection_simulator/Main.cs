@@ -119,7 +119,7 @@ namespace car_simulation
 
 
             // Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
-            if (accumulatedTime > 500)
+            if (true)//accumulatedTime > 500)
             {
                 if (zoom)
                     zoomFactor = zoomValue;
@@ -151,6 +151,11 @@ namespace car_simulation
             // update global timer
             label6.Text = "Simulation Time: " + Convert.ToString(Time_Global.ToString("0.0"));
             Time_Global += dt;
+
+                // update global timer
+                label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
+                Time_Global += realdt / 1000;
+
 
             // clear graphics
             clear_graphics();
