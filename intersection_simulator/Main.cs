@@ -17,8 +17,8 @@ namespace car_simulation
         // Init time parameters
         double Time_Global = 0;
         double accumulatedTime, totalAccumulatedTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
-        double dt;
-        //double dt = 0.01;
+        double realdt;
+        double dt = 0.01;
 
         // origin cordinates
         int o_x = 400;
@@ -110,14 +110,14 @@ namespace car_simulation
 
 
             // update time passed dt
-            dt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
-            totalAccumulatedTime += dt;
-            accumulatedTime += dt;
+            realdt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
+            totalAccumulatedTime += realdt;
+            accumulatedTime += realdt;
 
             
 
             // Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
-            if (accumulatedTime > 500)
+            if (true)//accumulatedTime > 500)
             {
                 if (zoom)
                     zoomFactor = zoomValue;
@@ -143,7 +143,7 @@ namespace car_simulation
             }
                 // update global timer
                 label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
-                Time_Global += dt / 1000;
+                Time_Global += realdt / 1000;
 
             // clear graphics
             clear_graphics();
