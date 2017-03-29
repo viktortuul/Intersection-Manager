@@ -16,9 +16,10 @@ namespace car_simulation
 
         // Init time parameters
         double Time_Global = 0;
+        double Real_Time_Global = 0;
         double accumulatedTime, totalAccumulatedTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
-        double dt;
-        //double dt = 0.01;
+        double realdt;
+        double dt = 0.01;
 
         // origin cordinates
         int o_x = 400;
@@ -70,7 +71,7 @@ namespace car_simulation
         bool show_ghost = false; // show ghost vehicles toggle
         bool showZones = false;
         bool zoom = false; // show zoom
-        int zoomFactor = 1; // zoom factor
+        double zoomFactor = 1; // zoom factor
         int zoomValue = 10;
         int laneWidth = 8; // lane width, meters
 
@@ -88,10 +89,10 @@ namespace car_simulation
         Graphics g;
         bool init = false;
 
-        
+
         Bitmap bm = new Bitmap(1000, 1000);
 
-    
+
         // random operator 
         Random rnd = new Random();
 
@@ -99,7 +100,7 @@ namespace car_simulation
         {
             InitializeComponent();
         }
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -111,11 +112,11 @@ namespace car_simulation
 
 
             // update time passed dt
-            //dt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
-            //totalAccumulatedTime += dt;
-            //accumulatedTime += dt;
+            realdt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
+            totalAccumulatedTime += realdt;
+            accumulatedTime += realdt;
 
-            
+
 
             // Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
             if (accumulatedTime > 500)
@@ -126,8 +127,8 @@ namespace car_simulation
                     zoomFactor = 1;
 
                 // origin cordinates
-                o_x = 400 / zoomFactor;
-                o_y = 400 / zoomFactor;
+                o_x = Convert.ToInt16(400 / zoomFactor);
+                o_y = Convert.ToInt16(400 / zoomFactor);
 
 
                 // add the vehicles to the list that will be get speed requests
@@ -142,13 +143,18 @@ namespace car_simulation
                 accumulatedTime = 0;
 
             }
-                // update global timer
-                label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
-                Time_Global += dt / 1000;
+
+            // update global timer
+            label8.Text = "Real time: " + Convert.ToString(Real_Time_Global.ToString("0.0"));
+            Real_Time_Global += realdt / 1000;
+
+            // update global timer
+            label6.Text = "Simulation Time: " + Convert.ToString(Time_Global.ToString("0.0"));
+            Time_Global += dt;
 
             // clear graphics
             clear_graphics();
-            
+
             // draw the environment
             draw_road();
 
@@ -169,7 +175,7 @@ namespace car_simulation
                 if (show_ghost) draw_vehicle(vehicle);
             }
 
-         
+
             // update image
             pictureBox1.Image = bm;
 
@@ -181,7 +187,7 @@ namespace car_simulation
             vehicles_relevant.Clear();
             foreach (Vehicle vehicle in vehicles)
             {
-                if (vehicle.passed == false) // 
+                if (vehicle.passed == false ) // 
                 {
                     vehicles_relevant.Add(vehicle);
                     //speed_total += vehicle.speed;
@@ -203,14 +209,14 @@ namespace car_simulation
                 if (T_diff <= T_margin) // time limit
                 {
                     if (vehicles_relevant[i + 1].speed_request >= 0.3) vehicles_relevant[i + 1].speed_request -= 0.2;
-                    if (vehicles_relevant[i].speed_request < 40) vehicles_relevant[i].speed_request += 0.1;
+                    if (vehicles_relevant[i].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.1;
                 }
                 else
                 {
-                    if (vehicles_relevant[i + 1].speed_request < 40) vehicles_relevant[i].speed_request += 0.2;
+                    if (vehicles_relevant[i + 1].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.2;
                 }
             }
-            if (vehicles_relevant.Count == 1 && vehicles_relevant[0].speed_request < 40) vehicles_relevant[0].speed_request += 0.3;
+            if (vehicles_relevant.Count == 1 && vehicles_relevant[0].speed_request < speed_limit) vehicles_relevant[0].speed_request += 0.3;
 
         }
 
@@ -232,7 +238,7 @@ namespace car_simulation
                             {
                                 vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - distMargin) / Tj;
                             }
-                            if (vehicles_relevant[i].speed_request > 40) vehicles_relevant[i].speed_request = 40;
+                            if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
                             break;
                         }
                     }
@@ -254,11 +260,11 @@ namespace car_simulation
         private int get_tajectory_index(Vehicle vehicle)
         {
             int index = 0;
-            String[] route = {"NW", "NS", "NE", "EN", "EW", "ES", "SE", "SW", "WS", "WE", "WN"};
+            String[] route = { "NW", "NS", "NE", "EN", "EW", "ES", "SE", "SN", "SW", "WS", "WE", "WN" };
             for (int i = 0; i < route.Count(); i++)
-                if (vehicle.route == "NW") index = i;
+                if (vehicle.route == route[i]) index = i;
             return index;
-            
+
         }
 
         private void draw_vehicle(Vehicle vehicle)
@@ -330,15 +336,15 @@ namespace car_simulation
             g.DrawEllipse(p_road, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound), 2 * simulation_bound, 2 * simulation_bound);
 
             // Draw intersection zones
-            if (showZones) 
+            if (showZones)
             {
 
-            SolidBrush semiTransBrushGreen = new SolidBrush(Color.FromArgb(40, 0, 255, 0));
-            g.FillEllipse(semiTransBrushGreen, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound ), 2*simulation_bound,  2*simulation_bound);
-            
-            SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
-            g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - Math.Sqrt(2)*laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2)*laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
-            g.DrawEllipse(p_road, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
+                SolidBrush semiTransBrushGreen = new SolidBrush(Color.FromArgb(40, 0, 255, 0));
+                g.FillEllipse(semiTransBrushGreen, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound), 2 * simulation_bound, 2 * simulation_bound);
+
+                SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
+                g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
+                g.DrawEllipse(p_road, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
             }
 
 
@@ -364,11 +370,11 @@ namespace car_simulation
             g = Graphics.FromImage(bm);
 
             // Zoom 
-            g.ScaleTransform(zoomFactor, zoomFactor);
+            g.ScaleTransform(Convert.ToInt16(zoomFactor), Convert.ToInt16(zoomFactor));
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;//SmoothingMode.AntiAlias;
 
             g.Clear(Color.White);
-           
+
         }
 
         private void remove_vehicles()
@@ -663,7 +669,12 @@ namespace car_simulation
                 showZones = false;
         }
 
-            private void textBox2_TextChanged(object sender, EventArgs e)
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
