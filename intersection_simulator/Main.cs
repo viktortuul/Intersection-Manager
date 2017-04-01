@@ -27,6 +27,9 @@ namespace car_simulation
 
         // bounds
         int simulation_bound = 400;
+        int reservationRadius = 300;
+        int criticalRadius = Convert.ToInt16(Math.Sqrt(2));
+
 
         // lists containing vehicles
         List<Vehicle> vehicles = new List<Vehicle>();
@@ -104,7 +107,6 @@ namespace car_simulation
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -152,9 +154,9 @@ namespace car_simulation
             label6.Text = "Simulation Time: " + Convert.ToString(Time_Global.ToString("0.0"));
             Time_Global += dt;
 
-                // update global timer
-                label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
-                Time_Global += realdt / 1000;
+            // update global timer
+            label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
+            Time_Global += realdt / 1000;
 
 
             // clear graphics
@@ -192,10 +194,14 @@ namespace car_simulation
             vehicles_relevant.Clear();
             foreach (Vehicle vehicle in vehicles)
             {
-                if (vehicle.passed == false ) // 
+                if (vehicle.dist < reservationRadius)
                 {
-                    vehicles_relevant.Add(vehicle);
-                    //speed_total += vehicle.speed;
+
+                    if (vehicle.passed == false) // 
+                    {
+                        vehicles_relevant.Add(vehicle);
+                        //speed_total += vehicle.speed;
+                    }
                 }
             }
 
@@ -209,45 +215,52 @@ namespace car_simulation
         {
             for (int i = 0; i < vehicles_relevant.Count - 1; i++)
             {
-                double T_diff = vehicles_relevant[i + 1].T - vehicles_relevant[i].T;
+                
+                if (vehicles_relevant[i].dist < reservationRadius)
+                {
+                    double T_diff = vehicles_relevant[i + 1].T - vehicles_relevant[i].T;
 
-                if (T_diff <= T_margin) // time limit
-                {
-                    if (vehicles_relevant[i + 1].speed_request >= 0.3) vehicles_relevant[i + 1].speed_request -= 0.2;
-                    if (vehicles_relevant[i].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.1;
+                    if (T_diff <= T_margin) // time limit
+                    {
+                        if (vehicles_relevant[i + 1].speed_request >= 0.3) vehicles_relevant[i + 1].speed_request -= 0.2;
+                        if (vehicles_relevant[i].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.1;
+                    }
+                    else
+                    {
+                        if (vehicles_relevant[i + 1].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.2;
+                    }
                 }
-                else
-                {
-                    if (vehicles_relevant[i + 1].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.2;
-                }
+                if (vehicles_relevant.Count == 1 && vehicles_relevant[0].speed_request < speed_limit) vehicles_relevant[0].speed_request += 0.3;
+
             }
-            if (vehicles_relevant.Count == 1 && vehicles_relevant[0].speed_request < speed_limit) vehicles_relevant[0].speed_request += 0.3;
-
         }
 
         private void controller_distance()
         {
             for (int i = vehicles_relevant.Count - 1; i >= 0; i--)
             {
-                // set speed request to the speed limit
-                vehicles_relevant[i].speed_request = speed_limit;
-                if (vehicles_relevant.Count() >= 2)
+                if (vehicles_relevant[i].dist < reservationRadius && vehicles_relevant[i].dist > criticalRadius)
                 {
-                    for (int j = i - 1; j >= 0; j--)
+                    // set speed request to the speed limit
+                    vehicles_relevant[i].speed_request = speed_limit;
+                    if (vehicles_relevant.Count() >= 2)
                     {
-                        // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
-                        if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
+                        for (int j = i - 1; j >= 0; j--)
                         {
-                            double Tj = vehicles_relevant[j].dist / vehicles_relevant[j].speed_request;
-                            if (vehicles_relevant[i].dist - distMargin >= 0)
+                            // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
+                            if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
                             {
-                                vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - distMargin) / Tj;
+                                double Tj = vehicles_relevant[j].dist / vehicles_relevant[j].speed_request;
+                                if (vehicles_relevant[i].dist - distMargin >= 0)
+                                {
+                                    vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - distMargin) / Tj;
+                                }
+                                if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
+                                break;
                             }
-                            if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
-                            break;
                         }
-                    }
 
+                    }
                 }
             }
 
@@ -345,11 +358,14 @@ namespace car_simulation
             {
 
                 SolidBrush semiTransBrushGreen = new SolidBrush(Color.FromArgb(40, 0, 255, 0));
-                g.FillEllipse(semiTransBrushGreen, Convert.ToInt32(o_x - simulation_bound), Convert.ToInt32(o_y - simulation_bound), 2 * simulation_bound, 2 * simulation_bound);
+                Pen greenPen = new Pen(Color.Green, 1);
+                g.DrawEllipse(greenPen, Convert.ToInt32(o_x - reservationRadius), Convert.ToInt32(o_y - reservationRadius), 2 * reservationRadius, 2 * reservationRadius);
+                g.FillEllipse(semiTransBrushGreen, Convert.ToInt32(o_x - reservationRadius), Convert.ToInt32(o_y - reservationRadius), 2 * reservationRadius, 2 * reservationRadius);
 
+                Pen redPen = new Pen(Color.Red, 1);
                 SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
+                g.DrawEllipse(redPen, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
                 g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
-                g.DrawEllipse(p_road, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
             }
 
 
