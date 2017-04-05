@@ -27,8 +27,8 @@ namespace car_simulation
 
         // bounds
         int simulation_bound = 400;
-        int reservationRadius = 300;
-        int criticalRadius = Convert.ToInt16(Math.Sqrt(2));
+        int reservationRadius = 300;//300;
+        int criticalRadius = 0;// Convert.ToInt16(Math.Sqrt(2));
 
 
         // lists containing vehicles
@@ -37,7 +37,7 @@ namespace car_simulation
         List<Vehicle> vehicles_ghost = new List<Vehicle>();
 
         // vehicle spawn parameters
-        double spawn_speed = 10; // spawn speed
+        double spawn_speed; // spawn speed
         int spawn_ID = 0; // vehicle spawn ID
         int last_ID = 0; // last ID (for the ghost vehicle)
         string last_spawn = ""; // last spawn position
@@ -50,7 +50,7 @@ namespace car_simulation
         int n_vehicles; // number of cars driving towards the intersection
 
         // margin parameters (AIM)
-        double speed_limit = 20; // vehicle upp speed limit
+        double speed_limit; // vehicle upp speed limit
         double T_margin = 2;
         double distMargin = 20;
 
@@ -75,7 +75,7 @@ namespace car_simulation
         bool showZones = false;
         bool zoom = false; // show zoom
         double zoomFactor = 1; // zoom factor
-        int zoomValue = 10;
+        int zoomValue;
         int laneWidth = 8; // lane width, meters
 
         // graphics
@@ -107,6 +107,9 @@ namespace car_simulation
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            zoomValue = Convert.ToInt16(numericUpDownZoomValue.Value);
+            speed_limit = Convert.ToDouble(numericUpDownSpeedLimit.Value);
+            spawn_speed = Convert.ToDouble(numericUpDownSpawnSpeed.Value);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -300,10 +303,10 @@ namespace car_simulation
             }
 
             g.DrawLine(p,
-                o_x + Convert.ToInt64(vehicle.x - vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
-                o_y + Convert.ToInt64(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)),
-                o_x + Convert.ToInt64(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 4 * Math.Sin(vehicle.angle)),
-                o_y + Convert.ToInt64(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 4 * Math.Cos(vehicle.angle)));
+                o_x + Convert.ToInt64(vehicle.x - vehicle.length / 2 * Math.Cos(vehicle.angle) - 0 * Math.Sin(vehicle.angle)),
+                o_y + Convert.ToInt64(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 0 * Math.Cos(vehicle.angle)),
+                o_x + Convert.ToInt64(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 0 * Math.Sin(vehicle.angle)),
+                o_y + Convert.ToInt64(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 0 * Math.Cos(vehicle.angle)));
 
             /*
             g.DrawEllipse(p_road,
@@ -364,8 +367,8 @@ namespace car_simulation
 
                 Pen redPen = new Pen(Color.Red, 1);
                 SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
-                g.DrawEllipse(redPen, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
-                g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - Math.Sqrt(2) * laneWidth), Convert.ToInt32(o_y - Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth), Convert.ToInt32(2 * Math.Sqrt(2) * laneWidth));
+                g.DrawEllipse(redPen, Convert.ToInt32(o_x - criticalRadius ), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
+                g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - criticalRadius), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
             }
 
 
@@ -632,21 +635,21 @@ namespace car_simulation
 
         private void numericUpDown1_ValueChanged_1(object sender, EventArgs e)
         {
-            if (numericUpDown1.Value < 1)
-                numericUpDown1.Value = 1;
-            else if (numericUpDown1.Value > 30)
-                numericUpDown1.Value = 30;
-            zoomValue = Convert.ToInt16(numericUpDown1.Value);
+            if (numericUpDownZoomValue.Value < 1)
+                numericUpDownZoomValue.Value = 1;
+            else if (numericUpDownZoomValue.Value > 30)
+                numericUpDownZoomValue.Value = 30;
+            zoomValue = Convert.ToInt16(numericUpDownZoomValue.Value);
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
-            speed_limit = Convert.ToDouble(numericUpDown2.Value);
+            speed_limit = Convert.ToDouble(numericUpDownSpeedLimit.Value);
         }
 
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
         {
-            spawn_speed = Convert.ToDouble(numericUpDown3.Value);
+            spawn_speed = Convert.ToDouble(numericUpDownSpawnSpeed.Value);
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -762,7 +765,7 @@ namespace car_simulation
             // set spawn position
             if (spawn == "North")
             {
-                x = 0;
+                x = -4;
                 y = -380;
                 angle = DegToRad(90);
                 if (target == "North") target = "South";
@@ -770,20 +773,20 @@ namespace car_simulation
             else if (spawn == "West")
             {
                 x = -380;
-                y = 0;
+                y = 4;
                 angle = DegToRad(0);
                 if (target == "West") target = "East";
             }
             else if (spawn == "East")
             {
                 x = 380;
-                y = 0;
+                y = -4;
                 angle = DegToRad(-180);
                 if (target == "East") target = "West";
             }
             else if (spawn == "South")
             {
-                x = 0;
+                x = 4;
                 y = 380;
                 angle = DegToRad(-90);
                 if (target == "South") target = "North";
@@ -918,6 +921,8 @@ namespace car_simulation
 
                 if (deltaAngle != 0)
                 {
+                    curvatureRadius = 8 - 4 * Math.Abs(deltaAngle) / deltaAngle;
+                    Console.Write("\n" + spawn + " " + Convert.ToString(target) + " " + Convert.ToString(deltaAngle) + " " + Convert.ToString(8 - 4*Math.Abs(deltaAngle)/deltaAngle));
                     turningTime = (Math.Abs(DegToRad(deltaAngle)) * curvatureRadius) / speed;
                     angle += DegToRad(deltaAngle) * dt / turningTime;
 
@@ -926,6 +931,8 @@ namespace car_simulation
             }
             else if (enteredIntersection)
             {
+                if (deltaAngle != 0)
+                    angle = DegToRad(targetAngle);
                 passed = true;
             }
         }

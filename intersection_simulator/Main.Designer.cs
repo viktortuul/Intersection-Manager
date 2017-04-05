@@ -47,12 +47,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownZoomValue = new System.Windows.Forms.NumericUpDown();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownSpawnSpeed = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownSpeedLimit = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDownDistMargin = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
@@ -65,10 +65,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_margin)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpawnSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDistMargin)).BeginInit();
             this.SuspendLayout();
             // 
@@ -254,7 +254,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.checkBox4);
-            this.groupBox2.Controls.Add(this.numericUpDown1);
+            this.groupBox2.Controls.Add(this.numericUpDownZoomValue);
             this.groupBox2.Controls.Add(this.checkBox3);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.checkBox2);
@@ -276,18 +276,18 @@
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
-            // numericUpDown1
+            // numericUpDownZoomValue
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(55, 64);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(45, 20);
-            this.numericUpDown1.TabIndex = 21;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            10,
+            this.numericUpDownZoomValue.Location = new System.Drawing.Point(55, 64);
+            this.numericUpDownZoomValue.Name = "numericUpDownZoomValue";
+            this.numericUpDownZoomValue.Size = new System.Drawing.Size(45, 20);
+            this.numericUpDownZoomValue.TabIndex = 21;
+            this.numericUpDownZoomValue.Value = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged_1);
+            this.numericUpDownZoomValue.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged_1);
             // 
             // checkBox3
             // 
@@ -302,9 +302,9 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.numericUpDown3);
+            this.groupBox3.Controls.Add(this.numericUpDownSpawnSpeed);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.numericUpDown2);
+            this.groupBox3.Controls.Add(this.numericUpDownSpeedLimit);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.numericUpDownDistMargin);
             this.groupBox3.Controls.Add(this.label5);
@@ -317,19 +317,19 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parametrar för kontrollalgorim";
             // 
-            // numericUpDown3
+            // numericUpDownSpawnSpeed
             // 
-            this.numericUpDown3.DecimalPlaces = 1;
-            this.numericUpDown3.Location = new System.Drawing.Point(8, 164);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown3.TabIndex = 15;
-            this.numericUpDown3.Value = new decimal(new int[] {
-            15,
+            this.numericUpDownSpawnSpeed.DecimalPlaces = 1;
+            this.numericUpDownSpawnSpeed.Location = new System.Drawing.Point(8, 164);
+            this.numericUpDownSpawnSpeed.Name = "numericUpDownSpawnSpeed";
+            this.numericUpDownSpawnSpeed.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownSpawnSpeed.TabIndex = 15;
+            this.numericUpDownSpawnSpeed.Value = new decimal(new int[] {
+            40,
             0,
             0,
             0});
-            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
+            this.numericUpDownSpawnSpeed.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // label7
             // 
@@ -340,19 +340,19 @@
             this.label7.TabIndex = 16;
             this.label7.Text = "Spawn fart [m/s]";
             // 
-            // numericUpDown2
+            // numericUpDownSpeedLimit
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Location = new System.Drawing.Point(8, 119);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 13;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            20,
+            this.numericUpDownSpeedLimit.DecimalPlaces = 1;
+            this.numericUpDownSpeedLimit.Location = new System.Drawing.Point(8, 119);
+            this.numericUpDownSpeedLimit.Name = "numericUpDownSpeedLimit";
+            this.numericUpDownSpeedLimit.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownSpeedLimit.TabIndex = 13;
+            this.numericUpDownSpeedLimit.Value = new decimal(new int[] {
+            35,
             0,
             0,
             0});
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            this.numericUpDownSpeedLimit.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // label1
             // 
@@ -456,11 +456,11 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpawnSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDistMargin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -493,10 +493,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numericUpDownZoomValue;
+        private System.Windows.Forms.NumericUpDown numericUpDownSpeedLimit;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDownSpawnSpeed;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Timer timer_print;
         private System.Windows.Forms.CheckBox checkBox4;
