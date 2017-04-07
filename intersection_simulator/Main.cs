@@ -253,10 +253,11 @@ namespace car_simulation
                             // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
                             if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
                             {
+                                double dM = distMargin + vehicles_relevant[j].length / 2 + laneWidth;
                                 double Tj = vehicles_relevant[j].dist / vehicles_relevant[j].speed_request;
-                                if (vehicles_relevant[i].dist - distMargin >= 0)
+                                if (vehicles_relevant[i].dist - dM >= 0)
                                 {
-                                    vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - distMargin) / Tj;
+                                    vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - dM) / Tj;
                                 }
                                 if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
                                 break;
@@ -739,7 +740,7 @@ namespace car_simulation
 
             if (type == "Car")
             {
-                length = 6;
+                length = 5;
                 width = 3;
             }
             else if (type == "Bus")
@@ -940,9 +941,9 @@ namespace car_simulation
         public void speed_control()
         {
             // controller parameters
-            double Kp = 2000;
+            double Kp = 4000;
             double Kd = 10;
-            double Ki = 0.01;
+            double Ki = 0.1;
 
             //drag parameters
             double c = 1.5;
