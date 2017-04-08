@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Text;
+using System.IO;
+
 namespace car_simulation
 {
     public partial class MainFrame : Form
@@ -20,6 +23,7 @@ namespace car_simulation
         double accumulatedTime, totalAccumulatedTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
         double realdt;
         double dt = 0.01;
+        double time_test = 0;
 
         // origin cordinates
         int o_x = 400;
@@ -48,6 +52,9 @@ namespace car_simulation
         double speed_total; // total vehicle speed
         double speed_average; // average vehicle speed
         int n_vehicles; // number of cars driving towards the intersection
+        public static int test_vehicles_passed = 0;
+        string test_data_time = "";
+        string test_data_passed = "";
 
         // margin parameters (AIM)
         double speed_limit; // vehicle upp speed limit
@@ -114,7 +121,28 @@ namespace car_simulation
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (timerTest.Enabled)
+            { 
+            time_test += dt;
+            labelDuration.Text = "Duration: " + Convert.ToString(time_test);
+            
+            if (time_test % 0.1 <= 0.01) // Fånga varje 100 millisekund bara. % är modulo
+                {
+                    test_data_time += time_test + " ";
+                    test_data_passed += test_vehicles_passed + " ";
+                }
+            }
+            if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
+            {
+                time_test = 0;
+                timerTest.Stop();
+                labelDuration.Text = "Test Done ";
 
+                test_data_time = test_data_time.Replace(",", ".");
+                TextWriter tw = File.CreateText(Application.StartupPath + "TESTDATA.txt");
+                tw.WriteLine(test_data_time + Environment.NewLine + test_data_passed);
+                tw.Close();
+            }
 
             // update time passed dt
             realdt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
@@ -253,7 +281,7 @@ namespace car_simulation
                             // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
                             if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
                             {
-                                double dM = distMargin + vehicles_relevant[j].length / 2 + laneWidth;
+                                double dM = distMargin + vehicles_relevant[i].length / 2 + vehicles_relevant[j].length / 2 + laneWidth;
                                 double Tj = vehicles_relevant[j].dist / vehicles_relevant[j].speed_request;
                                 if (vehicles_relevant[i].dist - dM >= 0)
                                 {
@@ -699,6 +727,31 @@ namespace car_simulation
 
         }
 
+        private void timerTest_Tick(object sender, EventArgs e)
+        {
+            Vehicle bil1 = new Vehicle(spawnID_next(), "Car", spawn_speed, get_random_spawn(), get_random_target(), true);
+            Vehicle bil01 = new Vehicle(last_ID, "Car", spawn_speed, last_spawn, last_target, false);
+            vehicles.Add(bil1);
+            vehicles_ghost.Add(bil01);
+            timer_simulation.Start();
+            timer_print.Start();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            time_test = 0;
+            test_vehicles_passed = 0;
+            test_data_time = "";
+            test_data_passed = "";
+            timerTest.Interval = Convert.ToInt16(numericUpDownDelay.Value * 1000);
+            timerTest.Start();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -934,7 +987,10 @@ namespace car_simulation
             {
                 if (deltaAngle != 0)
                     angle = DegToRad(targetAngle);
+                if (passed == false)
+                    MainFrame.test_vehicles_passed += 1;
                 passed = true;
+
             }
         }
 
