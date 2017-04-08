@@ -9,14 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using System.Text;
 using System.IO;
 
 namespace car_simulation
 {
     public partial class MainFrame : Form
     {
-
+        bool Test_Running = false;
         // Init time parameters
         double Time_Global = 0;
         double Real_Time_Global = 0;
@@ -55,6 +54,7 @@ namespace car_simulation
         public static int test_vehicles_passed = 0;
         string test_data_time = "";
         string test_data_passed = "";
+        string test_data_incomingVehicles = "";
 
         // margin parameters (AIM)
         double speed_limit; // vehicle upp speed limit
@@ -121,28 +121,38 @@ namespace car_simulation
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (timerTest.Enabled)
-            { 
-            time_test += dt;
-            labelDuration.Text = "Duration: " + Convert.ToString(time_test);
-            
-            if (time_test % 0.1 <= 0.01) // Fånga varje 100 millisekund bara. % är modulo
+            if (Test_Running == true)
+            {
+                time_test += dt;
+                labelDuration.Text = "Duration: " + Convert.ToString(time_test);
+
+                if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value) && vehicles_relevant.Count <= 0)
+                {
+                    Test_Running = false;
+                    time_test = 0;
+                    timerTest.Stop();
+                    labelDuration.Text = "Test Done ";
+
+                    test_data_time = test_data_time.Replace(",", ".");
+                    TextWriter tw = File.CreateText(Application.StartupPath + "TESTDATA.txt");
+                    tw.WriteLine(test_data_time + Environment.NewLine + test_data_passed + Environment.NewLine + test_data_incomingVehicles);
+                    tw.Close();
+                }
+
+                else
+                {
+                    time_test += dt;
+                    labelDuration.Text = "Duration: " + Convert.ToString(time_test);
+                }
+
+            if (time_test % 0.1 <= 0.1) // Fånga varje 100 millisekund bara. % är modulo
                 {
                     test_data_time += time_test + " ";
                     test_data_passed += test_vehicles_passed + " ";
+                    test_data_incomingVehicles += vehicles_relevant.Count + " ";
                 }
             }
-            if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
-            {
-                time_test = 0;
-                timerTest.Stop();
-                labelDuration.Text = "Test Done ";
 
-                test_data_time = test_data_time.Replace(",", ".");
-                TextWriter tw = File.CreateText(Application.StartupPath + "TESTDATA.txt");
-                tw.WriteLine(test_data_time + Environment.NewLine + test_data_passed);
-                tw.Close();
-            }
 
             // update time passed dt
             realdt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
@@ -735,14 +745,18 @@ namespace car_simulation
             vehicles_ghost.Add(bil01);
             timer_simulation.Start();
             timer_print.Start();
+            if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
+                timerTest.Stop();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Test_Running = true;
             time_test = 0;
             test_vehicles_passed = 0;
             test_data_time = "";
             test_data_passed = "";
+            test_data_incomingVehicles = "";
             timerTest.Interval = Convert.ToInt16(numericUpDownDelay.Value * 1000);
             timerTest.Start();
         }

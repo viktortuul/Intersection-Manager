@@ -497,6 +497,11 @@
             0,
             0});
             this.numericUpDownTestLength.Location = new System.Drawing.Point(11, 74);
+            this.numericUpDownTestLength.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDownTestLength.Name = "numericUpDownTestLength";
             this.numericUpDownTestLength.Size = new System.Drawing.Size(63, 20);
             this.numericUpDownTestLength.TabIndex = 27;
