@@ -30,7 +30,7 @@ namespace car_simulation
 
         // bounds
         int simulation_bound = 400;
-        int reservationRadius = 300;//300;
+        int reservationRadius = 350;//300;
         int criticalRadius = 0;// Convert.ToInt16(Math.Sqrt(2));
 
 
@@ -52,9 +52,15 @@ namespace car_simulation
         double speed_average; // average vehicle speed
         int n_vehicles; // number of cars driving towards the intersection
         public static int test_vehicles_passed = 0;
+        int test_vehicles_spawned = 0;
         string test_data_time = "";
+        string test_data_spawned = "";
         string test_data_passed = "";
         string test_data_incomingVehicles = "";
+        string test_data_dIn = "";
+        string test_data_dOut = "";
+
+
 
         // margin parameters (AIM)
         double speed_limit; // vehicle upp speed limit
@@ -123,10 +129,16 @@ namespace car_simulation
         {
             if (Test_Running == true)
             {
-                time_test += dt;
-                labelDuration.Text = "Duration: " + Convert.ToString(time_test);
+                if (time_test % Convert.ToDouble(numericUpDownDelay.Value) < 0.01)
+                {
+                    Vehicle bil1 = new Vehicle(spawnID_next(), "Car", spawn_speed, get_random_spawn(), get_random_target(), true);
+                    Vehicle bil01 = new Vehicle(last_ID, "Car", spawn_speed, last_spawn, last_target, false);
+                    vehicles.Add(bil1);
+                    vehicles_ghost.Add(bil01);
+                    test_vehicles_spawned += 1;
+                }
 
-                if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value) && vehicles_relevant.Count <= 0)
+                if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
                 {
                     Test_Running = false;
                     time_test = 0;
@@ -134,23 +146,34 @@ namespace car_simulation
                     labelDuration.Text = "Test Done ";
 
                     test_data_time = test_data_time.Replace(",", ".");
+                    test_data_dIn = test_data_dIn.Replace(",", ".");
+                    test_data_dOut = test_data_dOut.Replace(",", ".");
                     TextWriter tw = File.CreateText(Application.StartupPath + "TESTDATA.txt");
-                    tw.WriteLine(test_data_time + Environment.NewLine + test_data_passed + Environment.NewLine + test_data_incomingVehicles);
+                    tw.WriteLine(test_data_time + Environment.NewLine +
+                        test_data_spawned + Environment.NewLine +
+                        test_data_passed + Environment.NewLine + 
+                        test_data_incomingVehicles + Environment.NewLine +
+                        test_data_dIn + Environment.NewLine +
+                        test_data_dOut);
                     tw.Close();
                 }
-
                 else
                 {
                     time_test += dt;
-                    labelDuration.Text = "Duration: " + Convert.ToString(time_test);
+                    labelDuration.Text = "Duration: " + Convert.ToString(Math.Round(time_test,1));
+
+                    if (time_test % 1 < 0.01) // Fånga varje 100 millisekund bara. % är modulo
+                    {
+                        test_data_time += time_test + " ";
+                        test_data_spawned += test_vehicles_spawned + " ";
+                        test_data_passed += test_vehicles_passed + " ";
+                        test_data_incomingVehicles += vehicles_relevant.Count + " ";
+                        test_data_dIn += test_vehicles_spawned / time_test + " ";
+                        test_data_dOut += test_vehicles_passed / time_test + " "; ;
+                    }
                 }
 
-            if (time_test % 0.1 <= 0.1) // Fånga varje 100 millisekund bara. % är modulo
-                {
-                    test_data_time += time_test + " ";
-                    test_data_passed += test_vehicles_passed + " ";
-                    test_data_incomingVehicles += vehicles_relevant.Count + " ";
-                }
+
             }
 
 
@@ -158,8 +181,6 @@ namespace car_simulation
             realdt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
             totalAccumulatedTime += realdt;
             accumulatedTime += realdt;
-
-
 
             // Console.Write("accumulatedTime : " + totalAccumulatedTime / 1000);
             if (true)//accumulatedTime > 500)
@@ -196,8 +217,8 @@ namespace car_simulation
             Time_Global += dt;
 
             // update global timer
-            label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
-            Time_Global += realdt / 1000;
+            //label6.Text = "Time: " + Convert.ToString(Time_Global.ToString("0.0"));
+            //Time_Global += realdt / 1000;
 
 
             // clear graphics
@@ -739,14 +760,7 @@ namespace car_simulation
 
         private void timerTest_Tick(object sender, EventArgs e)
         {
-            Vehicle bil1 = new Vehicle(spawnID_next(), "Car", spawn_speed, get_random_spawn(), get_random_target(), true);
-            Vehicle bil01 = new Vehicle(last_ID, "Car", spawn_speed, last_spawn, last_target, false);
-            vehicles.Add(bil1);
-            vehicles_ghost.Add(bil01);
-            timer_simulation.Start();
-            timer_print.Start();
-            if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
-                timerTest.Stop();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -754,11 +768,13 @@ namespace car_simulation
             Test_Running = true;
             time_test = 0;
             test_vehicles_passed = 0;
+            test_vehicles_spawned = 0;
             test_data_time = "";
             test_data_passed = "";
             test_data_incomingVehicles = "";
-            timerTest.Interval = Convert.ToInt16(numericUpDownDelay.Value * 1000);
-            timerTest.Start();
+            test_data_dIn = "";
+            test_data_dOut = "";
+            timer_simulation.Start();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -1001,8 +1017,10 @@ namespace car_simulation
             {
                 if (deltaAngle != 0)
                     angle = DegToRad(targetAngle);
-                if (passed == false)
+                if (passed == false && mode == true)
+                {
                     MainFrame.test_vehicles_passed += 1;
+                }
                 passed = true;
 
             }
