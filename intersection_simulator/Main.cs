@@ -775,6 +775,7 @@ namespace car_simulation
             test_data_dIn = "";
             test_data_dOut = "";
             timer_simulation.Start();
+            timer_print.Start();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
