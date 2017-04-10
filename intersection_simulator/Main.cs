@@ -59,6 +59,8 @@ namespace car_simulation
         string test_data_incomingVehicles = "";
         string test_data_dIn = "";
         string test_data_dOut = "";
+        double[] passed = new double[10];
+        double[] time = new double[10];
 
 
 
@@ -123,6 +125,7 @@ namespace car_simulation
             zoomValue = Convert.ToInt16(numericUpDownZoomValue.Value);
             speed_limit = Convert.ToDouble(numericUpDownSpeedLimit.Value);
             spawn_speed = Convert.ToDouble(numericUpDownSpawnSpeed.Value);
+            distMargin = Convert.ToDouble(numericUpDownDistMargin.Value);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -148,7 +151,8 @@ namespace car_simulation
                     test_data_time = test_data_time.Replace(",", ".");
                     test_data_dIn = test_data_dIn.Replace(",", ".");
                     test_data_dOut = test_data_dOut.Replace(",", ".");
-                    TextWriter tw = File.CreateText(Application.StartupPath + "TESTDATA.txt");
+                    
+                    TextWriter tw = File.CreateText(Application.StartupPath + "_vs" + spawn_speed + "_vl" + speed_limit + "_dm" + distMargin + "_int" + numericUpDownDelay.Value + "_len" + numericUpDownTestLength.Value + ".txt");
                     tw.WriteLine(test_data_time + Environment.NewLine +
                         test_data_spawned + Environment.NewLine +
                         test_data_passed + Environment.NewLine + 
@@ -162,7 +166,7 @@ namespace car_simulation
                     time_test += dt;
                     labelDuration.Text = "Duration: " + Convert.ToString(Math.Round(time_test,1));
 
-                    if (time_test % 1 < 0.01) // Fånga varje 100 millisekund bara. % är modulo
+                    if (time_test % 1 < 0.01) // Fånga data varje 1000 millisekund bara. % är modulo
                     {
                         test_data_time += time_test + " ";
                         test_data_spawned += test_vehicles_spawned + " ";
@@ -770,10 +774,12 @@ namespace car_simulation
             test_vehicles_passed = 0;
             test_vehicles_spawned = 0;
             test_data_time = "";
+            test_data_spawned = "";
             test_data_passed = "";
             test_data_incomingVehicles = "";
             test_data_dIn = "";
             test_data_dOut = "";
+
             timer_simulation.Start();
             timer_print.Start();
         }
