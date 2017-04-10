@@ -203,7 +203,7 @@ namespace car_simulation
                 apply_trafficmanager();
 
                 // perform actions on each car (choose a controller)
-                controller_distance();
+                controller_distance_topbottom();
 
                 // remove vehicles out of bounds
                 remove_vehicles();
@@ -304,6 +304,37 @@ namespace car_simulation
         private void controller_distance()
         {
             for (int i = vehicles_relevant.Count - 1; i >= 0; i--)
+            {
+                if (vehicles_relevant[i].dist < reservationRadius && vehicles_relevant[i].dist > criticalRadius)
+                {
+                    // set speed request to the speed limit
+                    vehicles_relevant[i].speed_request = speed_limit;
+                    if (vehicles_relevant.Count() >= 2)
+                    {
+                        for (int j = i - 1; j >= 0; j--)
+                        {
+                            // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
+                            if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
+                            {
+                                double dM = distMargin + vehicles_relevant[i].length / 2 + vehicles_relevant[j].length / 2 + laneWidth;
+                                double Tj = vehicles_relevant[j].dist / vehicles_relevant[j].speed_request;
+                                if (vehicles_relevant[i].dist - dM >= 0)
+                                {
+                                    vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - dM) / Tj;
+                                }
+                                if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
+                                break;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
+        private void controller_distance_topbottom()
+        {
+            for (int i = 0; i <= vehicles_relevant.Count - 1; i++)
             {
                 if (vehicles_relevant[i].dist < reservationRadius && vehicles_relevant[i].dist > criticalRadius)
                 {
