@@ -114,15 +114,18 @@ namespace car_simulation
         Pen p_thin = new Pen(Color.White, 1);
         Pen p_roads = new Pen(Color.LightGray, 16);
         Pen p_road = new Pen(Color.Black, 1);
+        Pen p_red = new Pen(Color.Red, 1);
         Pen p_car = new Pen(Color.Red, 3);
         Pen p_car_g = new Pen(Color.Gray, 3);
         Pen p_bus = new Pen(Color.Red, 5);
         Pen p_bus_g = new Pen(Color.Gray, 5);
         Graphics g;
+        Graphics gProj;
         bool init = false;
 
 
         Bitmap bm = new Bitmap(1000, 1000);
+        Bitmap bmProj = new Bitmap(400, 500);
 
 
         // random operator 
@@ -280,6 +283,7 @@ namespace car_simulation
 
             // update image
             pictureBox1.Image = bm;
+            pictureBox2.Image = bmProj;
 
 
         }
@@ -300,7 +304,7 @@ namespace car_simulation
                 }
             }
 
-            vehicles_relevant = vehicles_relevant.OrderBy(vehicle => vehicle.dist_tot).ToList(); // add relevant vehicles (sorted)
+            vehicles_relevant = vehicles_relevant.OrderBy(vehicle => vehicle.dist_to_inter).ToList(); // add relevant vehicles (sorted)
 
             n_vehicles = vehicles_relevant.Count();
             speed_average = speed_total / n_vehicles;
@@ -363,8 +367,8 @@ namespace car_simulation
         }
         private void controller_distance_topbottom()
         {
-            for (int i = 0; i <= vehicles_relevant.Count - 1; i++)
-            //for (int i = vehicles_relevant.Count - 1; i >= 0; i--)
+            //for (int i = 0; i <= vehicles_relevant.Count - 1; i++)
+            for (int i = vehicles_relevant.Count - 1; i >= 0; i--)
             {
                 if (vehicles_relevant[i].dist_to_inter < reservationRadius && vehicles_relevant[i].dist > criticalRadius)
                 {
@@ -388,6 +392,11 @@ namespace car_simulation
                                 {
                                     vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist_to_inter + d_coll_i - d_m) / (Tj + (d_coll_j / vehicles_relevant[j].speed_request));
                                     //Console.WriteLine(vehicles_relevant[j].route + d_coll_j + vehicles_relevant[i].route + d_coll_i);
+                                    if (i == 1 && j == 0)
+                                    {
+                                        label11.Text = "ID: " + vehicles_relevant[j].ID + "dj: " + d_coll_j + Environment.NewLine +
+                                            "ID: " + vehicles_relevant[i].ID + "di: " + d_coll_i + Environment.NewLine;
+                                    }
                                 }
 
                                 if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
@@ -449,6 +458,18 @@ namespace car_simulation
                     o_y + Convert.ToInt64(vehicle.y - vehicle.length / 2 * Math.Sin(vehicle.angle) + 0 * Math.Cos(vehicle.angle)),
                     o_x + Convert.ToInt64(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 0 * Math.Sin(vehicle.angle)),
                     o_y + Convert.ToInt64(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 0 * Math.Cos(vehicle.angle)));
+
+                gProj.DrawLine(p_road, Convert.ToInt64(395 - vehicle.dist_to_inter), 490, 395, Convert.ToInt64(490 - 20 * vehicle.dist_to_inter / vehicle.speed));
+                gProj.DrawLine(p_red, 395, 0, 395, 500);
+                gProj.DrawLine(p_red, 395 - simulation_bound, 0, 395 - simulation_bound, 500);
+                gProj.DrawLine(p_red, 395 - reservationRadius, 0, 395 - reservationRadius, 500);
+                string drawString = Convert.ToString(vehicle.ID);
+                Font drawFont = new Font("Arial", 6);
+                SolidBrush drawBrush = new SolidBrush(Color.Black);
+                PointF drawPoint = new PointF(
+                                Convert.ToInt64(392 - vehicle.dist_to_inter),
+                                Convert.ToInt64(492));
+                gProj.DrawString(drawString, drawFont, drawBrush, drawPoint);
             }
             catch { }
             /*
@@ -540,13 +561,13 @@ namespace car_simulation
         private void clear_graphics()
         {
             g = Graphics.FromImage(bm);
-
+            gProj = Graphics.FromImage(bmProj);
             // Zoom 
             g.ScaleTransform(Convert.ToInt16(zoomFactor), Convert.ToInt16(zoomFactor));
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;//SmoothingMode.AntiAlias;
 
             g.Clear(Color.White);
-
+            gProj.Clear(Color.White);
         }
 
         private void remove_vehicles()
@@ -869,6 +890,11 @@ namespace car_simulation
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
         {
 
         }
