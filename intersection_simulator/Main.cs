@@ -145,18 +145,18 @@ namespace car_simulation
             distMargin = Convert.ToDouble(numericUpDownDistMargin.Value);
 
             d0 = new double[,] {
-{0,0,0,0,Math.PI/4,0,0,0,Math.PI/4,0,0,0},
-{0,0,0,0,0,2*laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth},
-{0,0,0,0,0,Math.PI*(laneWidth-2)/2,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2,0,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2},
-{0,0,0,0,0,0,0,Math.PI/4,0,0,0,Math.PI/4},
-{2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0,2*laneWidth,0,0,0},
-{0,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2,0,0,0,0,0,Math.PI*(laneWidth-2)/2,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2},
+{0,0,0,0,Math.PI,0,0,0,0,0,0,0},
+{0,0,0,0,0,laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth},
+{0,0,0,0,0,Math.PI*3, Math.PI*6 ,Math.PI*6 ,Math.PI*6 ,0, laneWidth,Math.PI*3},
+{0,0,0,0,0,0,0,Math.PI,0,0,0,0},
+{2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0,laneWidth,0,0,0},
+{0,laneWidth,Math.PI*3,0,0,0,0,0,Math.PI*3,Math.PI*6,Math.PI*6,Math.PI*6},
 {0,0,Math.PI/4,0,0,0,0,0,0,0,Math.PI/4,0},
-{0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0,2*laneWidth},
-{Math.PI*(laneWidth-2),Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2,0,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2,0,0,0,0,0,Math.PI*(laneWidth-2)/2},
-{0,Math.PI/4,0,0,0,Math.PI/4,0,0,0,0,0,0},
-{0,0,2*laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0},
-{0,0,Math.PI*(laneWidth-2)/2,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2,0,Math.PI*(laneWidth-2),Math.PI*(laneWidth-2)/2,0,0,0},
+{0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0, laneWidth},
+{Math.PI*6, Math.PI*6, Math.PI*6, 0, laneWidth,Math.PI*3,0,0,0,0,0,Math.PI*3},
+{0,Math.PI,0,0,0,0,0,0,0,0,0,0},
+{0,0,laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0},
+{0,0,Math.PI*3,Math.PI*6, Math.PI*6, Math.PI*6, 0, laneWidth ,Math.PI*3,0,0,0},
         };
         }
 
