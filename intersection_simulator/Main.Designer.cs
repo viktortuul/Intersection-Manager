@@ -47,6 +47,8 @@
             this.numericUpDownZoomValue = new System.Windows.Forms.NumericUpDown();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownDelayAIM = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.numericUpDownSpawnSpeed = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.numericUpDownSpeedLimit = new System.Windows.Forms.NumericUpDown();
@@ -77,6 +79,7 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelayAIM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpawnSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDistMargin)).BeginInit();
@@ -277,6 +280,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.numericUpDownDelayAIM);
+            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.numericUpDownSpawnSpeed);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.numericUpDownSpeedLimit);
@@ -285,10 +290,38 @@
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Location = new System.Drawing.Point(14, 548);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(194, 161);
+            this.groupBox3.Size = new System.Drawing.Size(194, 220);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parametrar för kontrollalgorim";
+            // 
+            // numericUpDownDelayAIM
+            // 
+            this.numericUpDownDelayAIM.DecimalPlaces = 1;
+            this.numericUpDownDelayAIM.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownDelayAIM.Location = new System.Drawing.Point(8, 178);
+            this.numericUpDownDelayAIM.Name = "numericUpDownDelayAIM";
+            this.numericUpDownDelayAIM.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownDelayAIM.TabIndex = 17;
+            this.numericUpDownDelayAIM.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownDelayAIM.ValueChanged += new System.EventHandler(this.numericUpDownDelayAIM_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 162);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Delay AIM [s]";
             // 
             // numericUpDownSpawnSpeed
             // 
@@ -581,6 +614,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelayAIM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpawnSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDistMargin)).EndInit();
@@ -639,6 +673,8 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown numericUpDownDelayAIM;
+        private System.Windows.Forms.Label label2;
     }
 }
 

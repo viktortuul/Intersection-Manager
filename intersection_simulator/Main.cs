@@ -104,6 +104,9 @@ namespace car_simulation
         Bitmap bm = new Bitmap(1000, 1000);
         Bitmap bmProj = new Bitmap(400, 500);
 
+        //controller
+        double delay_AIM;
+
         // random operator 
         Random rnd = new Random();
 
@@ -120,6 +123,7 @@ namespace car_simulation
             speed_limit = Convert.ToDouble(numericUpDownSpeedLimit.Value);
             spawn_speed = Convert.ToDouble(numericUpDownSpawnSpeed.Value);
             distMargin = Convert.ToDouble(numericUpDownDistMargin.Value);
+            delay_AIM = Convert.ToDouble(numericUpDownDelayAIM.Value);
 
             // distance-to-collison (vehicle j)
             d0f = new double[,] {
@@ -228,7 +232,8 @@ namespace car_simulation
                 apply_trafficmanager();
 
                 // perform actions on each car (choose a controller)
-                controller_distance_topbottom();
+                if (Time_Global % delay_AIM < 0.01) // Fånga varje x millisekund bara. % är modulo
+                    controller_distance_topbottom();
 
                 // remove vehicles out of bounds
                 remove_vehicles();
@@ -354,6 +359,8 @@ namespace car_simulation
                             double speed_request = (di + d_0l - d_m) / (Tj + T0j);
 
                             speed_requests.Add(speed_request);
+                            if (speed_requests.Count() >= 6)
+                                break;
                             foundRisk = true;
                         }
                     }
@@ -803,6 +810,11 @@ namespace car_simulation
                 showZones = true;
             else
                 showZones = false;
+        }
+
+        private void numericUpDownDelayAIM_ValueChanged(object sender, EventArgs e)
+        {
+            delay_AIM = Convert.ToDouble(numericUpDownDelayAIM.Value);
         }
 
         private void button2_Click(object sender, EventArgs e)
