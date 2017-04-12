@@ -15,7 +15,7 @@ namespace car_simulation
 {
     public partial class MainFrame : Form
     {
-        bool Test_Running = false;
+        bool test_running = false;
         // Init time parameters
         double Time_Global = 0;
         double Real_Time_Global = 0;
@@ -33,10 +33,9 @@ namespace car_simulation
         int reservationRadius = 350;//300;
         int criticalRadius = 0;// Convert.ToInt16(Math.Sqrt(2));
 
-
         // lists containing vehicles
         List<Vehicle> vehicles = new List<Vehicle>();
-        List<Vehicle> vehicles_relevant = new List<Vehicle>();
+        List<Vehicle> vehicles_approaching = new List<Vehicle>();
         List<Vehicle> vehicles_ghost = new List<Vehicle>();
 
         // vehicle spawn parameters
@@ -48,8 +47,6 @@ namespace car_simulation
         bool random_target = true; // toggle random target
 
         // statistical vehicle paramters
-        double speed_total; // total vehicle speed
-        double speed_average; // average vehicle speed
         int n_vehicles; // number of cars driving towards the intersection
         public static int test_vehicles_passed = 0;
         int test_vehicles_spawned = 0;
@@ -59,14 +56,9 @@ namespace car_simulation
         string test_data_incomingVehicles = "";
         string test_data_dIn = "";
         string test_data_dOut = "";
-        double[] passed = new double[10];
-        double[] time = new double[10];
-
-
 
         // margin parameters (AIM)
         double speed_limit; // vehicle upp speed limit
-        double T_margin = 2;
         double distMargin = 20;
 
         // trajectory-intersection model
@@ -85,20 +77,9 @@ namespace car_simulation
                 { 0,1,1,1,1,1,0,1,1,1,1,1 },
             };
 
-        double[,] d0 = new double[,] {
-                { 1,1,1,0,1,0,0,0,1,0,0,0 },
-                { 1,1,1,0,1,1,0,0,1,1,1,1 },
-                { 1,1,1,0,1,1,1,1,1,0,1,1 },
-                { 0,0,0,1,1,1,0,1,0,0,0,1 },
-                { 1,1,1,1,1,1,0,1,1,0,0,1 },
-                { 0,1,1,1,1,1,0,1,1,1,1,1 },
-                { 0,0,1,0,0,0,1,1,1,0,1,0 },
-                { 0,0,1,1,1,1,1,1,1,0,1,1 },
-                { 1,1,1,0,1,1,1,1,1,0,1,1 },
-                { 0,1,0,0,0,1,0,0,0,1,1,1 },
-                { 0,1,1,0,0,1,1,1,1,1,1,1 },
-                { 0,1,1,1,1,1,0,1,1,1,1,1 },
-            };
+        double[,] d0f = new double[12, 12];
+        double[,] d0l = new double[12, 12];
+
         // visual parameters
         bool show_ghost = false; // show ghost vehicles toggle
         bool showZones = false;
@@ -108,7 +89,6 @@ namespace car_simulation
         int laneWidth = 8; // lane width, meters
 
         // graphics
-
         float[] dashValues = { 4, 6 };
         Pen p_dashed = new Pen(Color.White, 1);
         Pen p_thin = new Pen(Color.White, 1);
@@ -121,12 +101,8 @@ namespace car_simulation
         Pen p_bus_g = new Pen(Color.Gray, 5);
         Graphics g;
         Graphics gProj;
-        bool init = false;
-
-
         Bitmap bm = new Bitmap(1000, 1000);
         Bitmap bmProj = new Bitmap(400, 500);
-
 
         // random operator 
         Random rnd = new Random();
@@ -139,79 +115,96 @@ namespace car_simulation
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // initialize parameters
             zoomValue = Convert.ToInt16(numericUpDownZoomValue.Value);
             speed_limit = Convert.ToDouble(numericUpDownSpeedLimit.Value);
             spawn_speed = Convert.ToDouble(numericUpDownSpawnSpeed.Value);
             distMargin = Convert.ToDouble(numericUpDownDistMargin.Value);
 
-            d0 = new double[,] {
-{0,0,0,0,Math.PI,0,0,0,0,0,0,0},
-{0,0,0,0,0,laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth},
-{0,0,0,0,0,Math.PI*3, Math.PI*6 ,Math.PI*6 ,Math.PI*6 ,0, laneWidth,Math.PI*3},
-{0,0,0,0,0,0,0,Math.PI,0,0,0,0},
-{2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0,laneWidth,0,0,0},
-{0,laneWidth,Math.PI*3,0,0,0,0,0,Math.PI*3,Math.PI*6,Math.PI*6,Math.PI*6},
-{0,0,Math.PI/4,0,0,0,0,0,0,0,Math.PI/4,0},
-{0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0, laneWidth},
-{Math.PI*6, Math.PI*6, Math.PI*6, 0, laneWidth,Math.PI*3,0,0,0,0,0,Math.PI*3},
-{0,Math.PI,0,0,0,0,0,0,0,0,0,0},
-{0,0,laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0},
-{0,0,Math.PI*3,Math.PI*6, Math.PI*6, Math.PI*6, 0, laneWidth ,Math.PI*3,0,0,0},
-        };
+            // distance-to-collison (vehicle j)
+            d0f = new double[,] {
+                                { 0,0,0,0,Math.PI,0,0,0,Math.PI,0,0,0 },
+                                { 0,0,0,0,laneWidth/2,laneWidth,0,0,laneWidth/2,2 * laneWidth,2 * laneWidth,2 * laneWidth},
+                                { 0,0,0,0,0,Math.PI*3,Math.PI*6 + 2,Math.PI*6 + 2,Math.PI*6 + 2,0,Math.PI*3,Math.PI*3},
+                                { 0,0,0,0,0,0,0,Math.PI,0,0,0,Math.PI },
+                                { 2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,laneWidth/2,laneWidth,0,0,0},
+                                { 0,Math.PI*3,Math.PI*3,0,0,0,0,0,Math.PI*3,Math.PI*6 + 2,Math.PI*6 + 2,Math.PI*6 + 2},
+                                { 0,0,Math.PI,0,0,0,0,0,0,0,Math.PI,0},
+                                { 0,0,laneWidth/2,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,laneWidth/2,laneWidth},
+                                { Math.PI*6 + 2,Math.PI*6 + 2,Math.PI*6 + 2,0,Math.PI*3,Math.PI*3,0,0,0,0,laneWidth/2,Math.PI*3},
+                                { 0,Math.PI,0,0,0,Math.PI,0,0,0,0,0,0},
+                                { 0,laneWidth/2,laneWidth,0,0,laneWidth/2,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0},
+                                { 0,laneWidth/2,Math.PI*3,Math.PI*6 + 2,Math.PI*6 + 2,Math.PI*6 + 2,0,Math.PI*3,Math.PI*3,0,0,0},
+                                };
+            // distance-to-collison (vehicle i)
+            d0l = new double[,] {
+                                { 0,0,0,0,Math.PI,0,0,0,Math.PI,0,0,0 },
+                                { 0,0,0,0,0,laneWidth,0,0,0,2 * laneWidth,2 * laneWidth,2 * laneWidth},
+                                { 0,0,0,0,0,Math.PI*3,Math.PI*6,Math.PI*6,0,0,Math.PI*3,Math.PI*3},
+                                { 0,0,0,0,0,0,0,Math.PI,0,0,0,Math.PI },
+                                { 2* laneWidth,2* laneWidth,2* laneWidth,0,0,0,0,0,laneWidth,0,0,0},
+                                { 0,Math.PI*3,Math.PI*3,0,0,0,0,0,Math.PI*3,Math.PI*6,Math.PI*6,0},
+                                { 0,0,Math.PI,0,0,0,0,0,0,0,Math.PI,0},
+                                { 0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0,0,0,laneWidth},
+                                { Math.PI*6,Math.PI*6,0,0,Math.PI*3,Math.PI*3,0,0,0,0,0,Math.PI*3},
+                                { 0,Math.PI,0,0,0,Math.PI,0,0,0,0,0,0},
+                                { 0,0,laneWidth,0,0,0,2*laneWidth,2*laneWidth,2*laneWidth,0,0,0},
+                                { 0,0,Math.PI*3,Math.PI*6,Math.PI*6,0,0,Math.PI*3,Math.PI*3,0,0,0},
+                                        };
+        }
+
+        private void test()
+        {
+            if (time_test % Convert.ToDouble(numericUpDownDelay.Value) < 0.01)
+            {
+                Vehicle bil1 = new Vehicle(spawnID_next(), "Car", spawn_speed, get_random_spawn(), get_random_target(), true);
+                Vehicle bil01 = new Vehicle(last_ID, "Car", spawn_speed, last_spawn, last_target, false);
+                vehicles.Add(bil1);
+                vehicles_ghost.Add(bil01);
+                test_vehicles_spawned += 1;
+            }
+
+            if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
+            {
+                test_running = false;
+                time_test = 0;
+                timerTest.Stop();
+                labelDuration.Text = "Test Done ";
+
+                test_data_time = test_data_time.Replace(",", ".");
+                test_data_dIn = test_data_dIn.Replace(",", ".");
+                test_data_dOut = test_data_dOut.Replace(",", ".");
+
+                TextWriter tw = File.CreateText(Application.StartupPath + "_vs" + spawn_speed + "_vl" + speed_limit + "_dm" + distMargin + "_int" + numericUpDownDelay.Value + "_len" + numericUpDownTestLength.Value + ".txt");
+                tw.WriteLine(test_data_time + Environment.NewLine +
+                    test_data_spawned + Environment.NewLine +
+                    test_data_passed + Environment.NewLine +
+                    test_data_incomingVehicles + Environment.NewLine +
+                    test_data_dIn + Environment.NewLine +
+                    test_data_dOut);
+                tw.Close();
+            }
+            else
+            {
+                time_test += dt;
+                labelDuration.Text = "Duration: " + Convert.ToString(Math.Round(time_test, 1));
+
+                if (time_test % 1 < 0.01) // Fånga data varje 1000 millisekund bara. % är modulo
+                {
+                    test_data_time += time_test + " ";
+                    test_data_spawned += test_vehicles_spawned + " ";
+                    test_data_passed += test_vehicles_passed + " ";
+                    test_data_incomingVehicles += vehicles_approaching.Count + " ";
+                    test_data_dIn += test_vehicles_spawned / time_test + " ";
+                    test_data_dOut += test_vehicles_passed / time_test + " "; ;
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (Test_Running == true)
-            {
-                if (time_test % Convert.ToDouble(numericUpDownDelay.Value) < 0.01)
-                {
-                    Vehicle bil1 = new Vehicle(spawnID_next(), "Car", spawn_speed, get_random_spawn(), get_random_target(), true);
-                    Vehicle bil01 = new Vehicle(last_ID, "Car", spawn_speed, last_spawn, last_target, false);
-                    vehicles.Add(bil1);
-                    vehicles_ghost.Add(bil01);
-                    test_vehicles_spawned += 1;
-                }
-
-                if (time_test >= Convert.ToDouble(numericUpDownTestLength.Value))
-                {
-                    Test_Running = false;
-                    time_test = 0;
-                    timerTest.Stop();
-                    labelDuration.Text = "Test Done ";
-
-                    test_data_time = test_data_time.Replace(",", ".");
-                    test_data_dIn = test_data_dIn.Replace(",", ".");
-                    test_data_dOut = test_data_dOut.Replace(",", ".");
-                    
-                    TextWriter tw = File.CreateText(Application.StartupPath + "_vs" + spawn_speed + "_vl" + speed_limit + "_dm" + distMargin + "_int" + numericUpDownDelay.Value + "_len" + numericUpDownTestLength.Value + ".txt");
-                    tw.WriteLine(test_data_time + Environment.NewLine +
-                        test_data_spawned + Environment.NewLine +
-                        test_data_passed + Environment.NewLine + 
-                        test_data_incomingVehicles + Environment.NewLine +
-                        test_data_dIn + Environment.NewLine +
-                        test_data_dOut);
-                    tw.Close();
-                }
-                else
-                {
-                    time_test += dt;
-                    labelDuration.Text = "Duration: " + Convert.ToString(Math.Round(time_test,1));
-
-                    if (time_test % 1 < 0.01) // Fånga data varje 1000 millisekund bara. % är modulo
-                    {
-                        test_data_time += time_test + " ";
-                        test_data_spawned += test_vehicles_spawned + " ";
-                        test_data_passed += test_vehicles_passed + " ";
-                        test_data_incomingVehicles += vehicles_relevant.Count + " ";
-                        test_data_dIn += test_vehicles_spawned / time_test + " ";
-                        test_data_dOut += test_vehicles_passed / time_test + " "; ;
-                    }
-                }
-
-
-            }
-
+            if (test_running == true)
+                test();
 
             // update time passed dt
             realdt = DateTime.Now.TimeOfDay.TotalMilliseconds - totalAccumulatedTime;
@@ -290,72 +283,42 @@ namespace car_simulation
 
         private void apply_trafficmanager()
         {
-            vehicles_relevant.Clear();
+            vehicles_approaching.Clear();
             foreach (Vehicle vehicle in vehicles)
             {
                 if (vehicle.dist < reservationRadius)
                 {
-
-                    if (vehicle.passed == false) // 
-                    {
-                        if (vehicle.dist_to_inter >= 0) vehicles_relevant.Add(vehicle);
-                        //speed_total += vehicle.speed;
-                    }
+                    if (vehicle.dist_to_inter > 0) vehicles_approaching.Add(vehicle);
                 }
             }
 
-            vehicles_relevant = vehicles_relevant.OrderBy(vehicle => vehicle.dist_to_inter).ToList(); // add relevant vehicles (sorted)
-
-            n_vehicles = vehicles_relevant.Count();
-            speed_average = speed_total / n_vehicles;
+            vehicles_approaching = vehicles_approaching.OrderBy(vehicle => vehicle.dist_to_inter).ToList(); // add relevant vehicles (sorted)
+            n_vehicles = vehicles_approaching.Count();
         }
 
-        private void controller_time_only()
-        {
-            for (int i = 0; i < vehicles_relevant.Count - 1; i++)
-            {
-                
-                if (vehicles_relevant[i].dist < reservationRadius)
-                {
-                    double T_diff = vehicles_relevant[i + 1].T - vehicles_relevant[i].T;
-
-                    if (T_diff <= T_margin) // time limit
-                    {
-                        if (vehicles_relevant[i + 1].speed_request >= 0.3) vehicles_relevant[i + 1].speed_request -= 0.2;
-                        if (vehicles_relevant[i].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.1;
-                    }
-                    else
-                    {
-                        if (vehicles_relevant[i + 1].speed_request < speed_limit) vehicles_relevant[i].speed_request += 0.2;
-                    }
-                }
-                if (vehicles_relevant.Count == 1 && vehicles_relevant[0].speed_request < speed_limit) vehicles_relevant[0].speed_request += 0.3;
-
-            }
-        }
 
         private void controller_distance()
         {
-            for (int i = vehicles_relevant.Count - 1; i >= 0; i--)
+            for (int i = vehicles_approaching.Count - 1; i >= 0; i--)
             {
-                if (vehicles_relevant[i].dist < reservationRadius && vehicles_relevant[i].dist > criticalRadius)
+                if (vehicles_approaching[i].dist < reservationRadius && vehicles_approaching[i].dist > criticalRadius)
                 {
                     // set speed request to the speed limit
-                    vehicles_relevant[i].speed_request = speed_limit;
-                    if (vehicles_relevant.Count() >= 2)
+                    vehicles_approaching[i].speed_request = speed_limit;
+                    if (vehicles_approaching.Count() >= 2)
                     {
                         for (int j = i - 1; j >= 0; j--)
                         {
                             // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
-                            if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
+                            if (vehicles_approaching[j].passed == false && collision_risk(vehicles_approaching[i], vehicles_approaching[j]) == true)
                             {
-                                double dM = distMargin + vehicles_relevant[i].length / 2 + vehicles_relevant[j].length / 2 + laneWidth;
-                                double Tj = vehicles_relevant[j].dist / vehicles_relevant[j].speed_request;
-                                if (vehicles_relevant[i].dist - dM >= 0)
+                                double dM = distMargin + vehicles_approaching[i].length / 2 + vehicles_approaching[j].length / 2 + laneWidth;
+                                double Tj = vehicles_approaching[j].dist / vehicles_approaching[j].speed_request;
+                                if (vehicles_approaching[i].dist - dM >= 0)
                                 {
-                                    vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist - dM) / Tj;
+                                    vehicles_approaching[i].speed_request = (vehicles_approaching[i].dist - dM) / Tj;
                                 }
-                                if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
+                                if (vehicles_approaching[i].speed_request > speed_limit) vehicles_approaching[i].speed_request = speed_limit;
                                 break;
                             }
                         }
@@ -365,49 +328,43 @@ namespace car_simulation
             }
 
         }
+
         private void controller_distance_topbottom()
         {
-            //for (int i = 0; i <= vehicles_relevant.Count - 1; i++)
-            for (int i = vehicles_relevant.Count - 1; i >= 0; i--)
+            for (int i = 0; i <= vehicles_approaching.Count() - 1; i++)
             {
-                if (vehicles_relevant[i].dist_to_inter < reservationRadius && vehicles_relevant[i].dist > criticalRadius)
+                vehicles_approaching[i].speed_request = speed_limit;
+
+                if (vehicles_approaching.Count() >= 2)
                 {
-                    // set speed request to the speed limit
-                    vehicles_relevant[i].speed_request = speed_limit;
-                    if (vehicles_relevant.Count() >= 2)
+                    List<double> speed_requests = new List<double>();
+                    bool foundRisk = false;
+
+                    for (int j = i - 1; j >= 0; j--)
                     {
-                        for (int j = i - 1; j >= 0; j--)
+                        if (collision_risk(vehicles_approaching[i], vehicles_approaching[j]) == true)
                         {
-                            // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
-                            if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
-                            {
-                                double d_coll_i = get_d_coll(vehicles_relevant[i], vehicles_relevant[j]);
-                                double d_coll_j = get_d_coll(vehicles_relevant[j], vehicles_relevant[i]);
+                            double d_0f = get_df(vehicles_approaching[j], vehicles_approaching[i]);
+                            double d_0l = get_dl(vehicles_approaching[i], vehicles_approaching[j]);
+                            double d_m = distMargin + vehicles_approaching[i].length / 2 + vehicles_approaching[j].length / 2;
+                            double di = vehicles_approaching[i].dist_to_inter;
+                            double Tj = vehicles_approaching[j].dist_to_inter / vehicles_approaching[j].speed_request;
+                            double T0j = d_0f / vehicles_approaching[j].speed_request;
 
-                                double d_m = distMargin + vehicles_relevant[i].length / 2 + vehicles_relevant[j].length / 2;
+                            double speed_request = (di + d_0l - d_m) / (Tj + T0j);
 
-                                double Tj = (vehicles_relevant[j].dist_to_inter) / vehicles_relevant[j].speed_request;
-
-                                if (vehicles_relevant[i].dist_to_inter > 0 && vehicles_relevant[j].dist_to_inter > 0)
-                                {
-                                    vehicles_relevant[i].speed_request = (vehicles_relevant[i].dist_to_inter + d_coll_i - d_m) / (Tj + (d_coll_j / vehicles_relevant[j].speed_request));
-                                    //Console.WriteLine(vehicles_relevant[j].route + d_coll_j + vehicles_relevant[i].route + d_coll_i);
-                                    if (i == 1 && j == 0)
-                                    {
-                                        label11.Text = "ID: " + vehicles_relevant[j].ID + "dj: " + d_coll_j + Environment.NewLine +
-                                            "ID: " + vehicles_relevant[i].ID + "di: " + d_coll_i + Environment.NewLine;
-                                    }
-                                }
-
-                                if (vehicles_relevant[i].speed_request > speed_limit) vehicles_relevant[i].speed_request = speed_limit;
-                                break;
-                            }
+                            speed_requests.Add(speed_request);
+                            foundRisk = true;
                         }
+                    }
+                    if (foundRisk == true)
+                    {
+                        vehicles_approaching[i].speed_request = speed_requests.Min();
+                        if (vehicles_approaching[i].speed_request > speed_limit) vehicles_approaching[i].speed_request = speed_limit;
 
                     }
                 }
             }
-
         }
 
         private bool collision_risk(Vehicle vehicle1, Vehicle vehicle2)
@@ -419,12 +376,21 @@ namespace car_simulation
             else result = false;
             return result;
         }
-        private double get_d_coll(Vehicle vehicle1, Vehicle vehicle2)
+
+        private double get_df(Vehicle vehicle1, Vehicle vehicle2)
         {
             double result;
             int a = get_tajectory_index(vehicle1);
             int b = get_tajectory_index(vehicle2);
-            result = d0[a, b];
+            result = d0f[a, b];
+            return result;
+        }
+        private double get_dl(Vehicle vehicle1, Vehicle vehicle2)
+        {
+            double result;
+            int a = get_tajectory_index(vehicle1);
+            int b = get_tajectory_index(vehicle2);
+            result = d0l[a, b] / 2;
             return result;
         }
 
@@ -435,7 +401,6 @@ namespace car_simulation
             for (int i = 0; i < route.Count(); i++)
                 if (vehicle.route == route[i]) index = i;
             return index;
-
         }
 
         private void draw_vehicle(Vehicle vehicle)
@@ -451,6 +416,7 @@ namespace car_simulation
                 if (vehicle.mode == true) p = p_bus;
                 else p = p_bus_g;
             }
+
             try
             {
                 g.DrawLine(p,
@@ -472,6 +438,7 @@ namespace car_simulation
                 gProj.DrawString(drawString, drawFont, drawBrush, drawPoint);
             }
             catch { }
+
             /*
             g.DrawEllipse(p_road,
                 Convert.ToInt32(o_x + vehicle.x - 1), 
@@ -479,14 +446,13 @@ namespace car_simulation
                 2, 2); // vehicle dot position
             */
 
-
             // Draw string to screen.
             if (zoomFactor < 5)
             {
                 // Create string to draw.
                 string drawString = Convert.ToString(vehicle.ID);
                 // Create font and brush.
-                Font drawFont = new Font("Arial", 8);
+                Font drawFont = new Font("Arial", 7);
                 SolidBrush drawBrush = new SolidBrush(Color.Black);
 
                 // Create point for upper-left corner of drawing.
@@ -505,9 +471,10 @@ namespace car_simulation
 
             }
         }
+
+
         private void draw_road()
         {
-
             // Draw Road
             g.DrawLine(p_roads, 0, o_y, 1000, o_y);
             g.DrawLine(p_roads, o_x, 0, o_y, 1000);
@@ -528,7 +495,6 @@ namespace car_simulation
             // Draw intersection zones
             if (showZones)
             {
-
                 SolidBrush semiTransBrushGreen = new SolidBrush(Color.FromArgb(40, 0, 255, 0));
                 Pen greenPen = new Pen(Color.Green, 1);
                 g.DrawEllipse(greenPen, Convert.ToInt32(o_x - reservationRadius), Convert.ToInt32(o_y - reservationRadius), 2 * reservationRadius, 2 * reservationRadius);
@@ -536,7 +502,7 @@ namespace car_simulation
 
                 Pen redPen = new Pen(Color.Red, 1);
                 SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
-                g.DrawEllipse(redPen, Convert.ToInt32(o_x - criticalRadius ), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
+                g.DrawEllipse(redPen, Convert.ToInt32(o_x - criticalRadius), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
                 g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - criticalRadius), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
             }
 
@@ -550,7 +516,6 @@ namespace car_simulation
             g.DrawLine(p_thin, o_x - 1, o_y + laneWidth, o_x - 1, 1000);
             g.DrawLine(p_thin, o_x + 1, 0, o_x + 1, o_y - laneWidth);
             g.DrawLine(p_thin, o_x + 1, o_y + laneWidth, o_x + 1, 1000);
-
 
             // Draw dashed white lines
             // p_dashed.DashPattern = dashValues;
@@ -689,7 +654,6 @@ namespace car_simulation
                 vehicles.Add(bil1);
                 vehicles_ghost.Add(bil01);
             }
-
             timer_simulation.Start();
             timer_print.Start();
         }
@@ -710,7 +674,6 @@ namespace car_simulation
                 vehicles.Add(bil1);
                 vehicles_ghost.Add(bil01);
             }
-
             timer_simulation.Start();
             timer_print.Start();
         }
@@ -758,11 +721,6 @@ namespace car_simulation
         double DegToRad(double degrees)
         {
             return degrees * Math.PI / 180.0;
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
- 
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -821,11 +779,6 @@ namespace car_simulation
             spawn_speed = Convert.ToDouble(numericUpDownSpawnSpeed.Value);
         }
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void timer_print_Tick(object sender, EventArgs e)
         {
             string present_vehicles = "";
@@ -834,24 +787,14 @@ namespace car_simulation
                 // present vehicle states
                 present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdist: " + Math.Round(vehicle.dist, MidpointRounding.AwayFromZero) + "\tspeed: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + "\tT: " + Math.Round(vehicle.T, 1) + "\tPassed: " + Convert.ToString(vehicle.passed) + Environment.NewLine);
             }
-            textBox1.Text = present_vehicles;
+            //textBox1.Text = present_vehicles;
 
             present_vehicles = "";
-            foreach (Vehicle vehicle in vehicles_relevant)
+            foreach (Vehicle vehicle in vehicles_approaching)
             {
-                present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdi: " + Math.Round(vehicle.dist_to_inter) + "+ " + Math.Round(vehicle.trajectoryDist, 1) +  "\t\tv: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + " (" + Math.Round(vehicle.speed_request, MidpointRounding.AwayFromZero) + ")\t\ttraj: " + vehicle.route + Environment.NewLine);
+                present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdi: " + Math.Round(vehicle.dist_to_inter) + "\tv: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + " (" + Math.Round(vehicle.speed_request, MidpointRounding.AwayFromZero) + ")\t\tacc: " + Math.Round(vehicle.acceleration,1) + "\ttraj: " + vehicle.route +"\tT: " + Math.Round(vehicle.T, 1) + Environment.NewLine);
             }
             textBox2.Text = present_vehicles;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
@@ -862,19 +805,10 @@ namespace car_simulation
                 showZones = false;
         }
 
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void timerTest_Tick(object sender, EventArgs e)
-        {
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            Test_Running = true;
+            // refresh all test-data
+            test_running = true;
             time_test = 0;
             test_vehicles_passed = 0;
             test_vehicles_spawned = 0;
@@ -884,24 +818,8 @@ namespace car_simulation
             test_data_incomingVehicles = "";
             test_data_dIn = "";
             test_data_dOut = "";
-
             timer_simulation.Start();
             timer_print.Start();
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 
@@ -929,6 +847,7 @@ namespace car_simulation
         public double error_prev;
         public double error_derivative;
         public double error_integral;
+        public double acceleration;
 
         public Vehicle(int inp_ID, string inp_vehicle_type, double inp_x, double inp_y, double inp_speed, double inp_angle, bool inp_mode)
         {
@@ -963,8 +882,6 @@ namespace car_simulation
             speed_request = inp_speed;
             spawn = inp_spawn;
             target = inp_target;
-        
-
 
             // set spawn position
             if (spawn == "North")
@@ -1000,7 +917,7 @@ namespace car_simulation
             if (spawn == "North")
             {
                 if (target == "East")
-                { 
+                {
                     route = "NE";
                     trajectoryDist = 6 * Math.PI * 8 / 8;
                 }
@@ -1069,6 +986,7 @@ namespace car_simulation
                     trajectoryDist = Math.PI * 8 / 16;
                 }
             }
+
             trajectoryDist = trajectoryDist + length;
             // set vehicle dimensions
             if (type == "Car")
@@ -1098,7 +1016,7 @@ namespace car_simulation
             x += vx * dt;
             y += vy * dt;
             dist = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
-            if (spawn == "South") dist_to_inter = y - 8 - length/2;
+            if (spawn == "South") dist_to_inter = y - 8 - length / 2;
             if (spawn == "North") dist_to_inter = -y - 8 - length / 2;
             if (spawn == "East") dist_to_inter = x - 8 - length / 2;
             if (spawn == "West") dist_to_inter = -x - 8 - length / 2;
@@ -1203,16 +1121,14 @@ namespace car_simulation
         public void speed_control()
         {
             // controller parameters
-            double Kp = 4000;
-            double Kd = 10;
-            double Ki = 0.1;
+            double Kp = 2000;
+            double Kd = 50;
+            double Ki = 10;
 
             //drag parameters
             double c = 1.5;
             double density = 1.2;
             double A = 3; // vehicle front area
-
-
 
             // regulator error
             double error = speed_request - speed;
@@ -1220,7 +1136,7 @@ namespace car_simulation
             // physical calculations
             double drag = c * density * A * Math.Pow(speed, 2) / 2;
             double Power = Kp * error + Kd * error_derivative + Ki * error_integral;
-            double acceleration = (Power - drag) / mass;
+            acceleration = (Power - drag) / mass;
 
             // update speed
             speed += acceleration * dt;

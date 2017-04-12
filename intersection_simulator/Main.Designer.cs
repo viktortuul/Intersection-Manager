@@ -32,7 +32,6 @@
             this.buttonM = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer_simulation = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -60,14 +59,13 @@
             this.timer_print = new System.Windows.Forms.Timer(this.components);
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.numericUpDownDelay = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTestLength = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.labelDuration = new System.Windows.Forms.Label();
             this.timerTest = new System.Windows.Forms.Timer(this.components);
-            this.label11 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -102,38 +100,27 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(406, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(410, 3);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(805, 805);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // timer_simulation
             // 
             this.timer_simulation.Interval = 10;
             this.timer_simulation.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 4);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Alla aktiva fordon";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 180);
+            this.label3.Location = new System.Drawing.Point(6, 4);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(246, 13);
+            this.label3.Size = new System.Drawing.Size(139, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Fordon på väg mot korsning (sorterad efter distans)";
+            this.label3.Text = "Fordon på väg mot korsning";
             // 
             // checkBox1
             // 
@@ -208,13 +195,12 @@
             this.groupBox1.Controls.Add(this.buttonM);
             this.groupBox1.Controls.Add(this.buttonW);
             this.groupBox1.Controls.Add(this.buttonE);
-            this.groupBox1.Location = new System.Drawing.Point(213, 394);
+            this.groupBox1.Location = new System.Drawing.Point(213, 452);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(187, 175);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Lägg till fordon";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // checkBoxTarget
             // 
@@ -247,7 +233,7 @@
             this.groupBox2.Controls.Add(this.checkBox3);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Location = new System.Drawing.Point(14, 393);
+            this.groupBox2.Location = new System.Drawing.Point(14, 451);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(194, 91);
             this.groupBox2.TabIndex = 17;
@@ -297,7 +283,7 @@
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.numericUpDownDistMargin);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(14, 490);
+            this.groupBox3.Location = new System.Drawing.Point(14, 548);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(194, 161);
             this.groupBox3.TabIndex = 18;
@@ -321,7 +307,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 69);
+            this.label7.Location = new System.Drawing.Point(8, 114);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(85, 13);
             this.label7.TabIndex = 16;
@@ -344,7 +330,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 114);
+            this.label1.Location = new System.Drawing.Point(8, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 14;
@@ -358,7 +344,7 @@
             this.numericUpDownDistMargin.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownDistMargin.TabIndex = 11;
             this.numericUpDownDistMargin.Value = new decimal(new int[] {
-            20,
+            5,
             0,
             0,
             0});
@@ -381,7 +367,6 @@
             this.label6.Size = new System.Drawing.Size(94, 13);
             this.label6.TabIndex = 20;
             this.label6.Text = "Simulation time [s]:";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // textBox1
             // 
@@ -389,19 +374,18 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(392, 155);
+            this.textBox1.Size = new System.Drawing.Size(391, 15);
             this.textBox1.TabIndex = 22;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.Visible = false;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(9, 196);
+            this.textBox2.Location = new System.Drawing.Point(9, 20);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(392, 192);
+            this.textBox2.Size = new System.Drawing.Size(391, 425);
             this.textBox2.TabIndex = 23;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // timer_print
             // 
@@ -415,7 +399,6 @@
             this.label8.Size = new System.Drawing.Size(68, 13);
             this.label8.TabIndex = 24;
             this.label8.Text = "Real time [s]:";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label9
             // 
@@ -426,15 +409,15 @@
             this.label9.TabIndex = 17;
             this.label9.Text = "Fördröjning [s]";
             // 
-            // button2
+            // buttonTest
             // 
-            this.button2.Location = new System.Drawing.Point(87, 30);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 50);
-            this.button2.TabIndex = 25;
-            this.button2.Text = "Starta Test";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonTest.Location = new System.Drawing.Point(87, 30);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(75, 50);
+            this.buttonTest.TabIndex = 25;
+            this.buttonTest.Text = "Starta Test";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.button2_Click);
             // 
             // label10
             // 
@@ -458,10 +441,10 @@
             this.numericUpDownDelay.Size = new System.Drawing.Size(63, 20);
             this.numericUpDownDelay.TabIndex = 17;
             this.numericUpDownDelay.Value = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            0});
+            65536});
             // 
             // numericUpDownTestLength
             // 
@@ -492,9 +475,9 @@
             this.groupBox4.Controls.Add(this.numericUpDownTestLength);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.numericUpDownDelay);
-            this.groupBox4.Controls.Add(this.button2);
+            this.groupBox4.Controls.Add(this.buttonTest);
             this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Location = new System.Drawing.Point(213, 571);
+            this.groupBox4.Location = new System.Drawing.Point(213, 629);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(187, 128);
             this.groupBox4.TabIndex = 28;
@@ -510,23 +493,10 @@
             this.labelDuration.TabIndex = 28;
             this.labelDuration.Text = "Duration: 0 s";
             // 
-            // timerTest
-            // 
-            this.timerTest.Tick += new System.EventHandler(this.timerTest_Tick);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(1216, 9);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 13);
-            this.label11.TabIndex = 29;
-            this.label11.Text = "label11";
-            // 
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.Location = new System.Drawing.Point(1219, 41);
+            this.pictureBox2.Location = new System.Drawing.Point(1219, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(400, 500);
             this.pictureBox2.TabIndex = 30;
@@ -535,7 +505,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(1258, 544);
+            this.label12.Location = new System.Drawing.Point(1258, 506);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(33, 13);
             this.label12.TabIndex = 31;
@@ -544,17 +514,16 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(1607, 544);
+            this.label13.Location = new System.Drawing.Point(1607, 506);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(21, 13);
             this.label13.TabIndex = 32;
             this.label13.Text = "0m";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(1625, 528);
+            this.label14.Location = new System.Drawing.Point(1625, 490);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(18, 13);
             this.label14.TabIndex = 33;
@@ -563,7 +532,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(1625, 41);
+            this.label15.Location = new System.Drawing.Point(1625, 3);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(24, 13);
             this.label15.TabIndex = 34;
@@ -572,7 +541,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(1625, 284);
+            this.label16.Location = new System.Drawing.Point(1625, 246);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(24, 13);
             this.label16.TabIndex = 35;
@@ -582,14 +551,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1694, 730);
+            this.ClientSize = new System.Drawing.Size(1796, 928);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.label11);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox2);
@@ -599,7 +567,6 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainFrame";
@@ -632,7 +599,6 @@
         private System.Windows.Forms.Button buttonM;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Timer timer_simulation;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
@@ -660,14 +626,13 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonTest;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown numericUpDownDelay;
         private System.Windows.Forms.NumericUpDown numericUpDownTestLength;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Timer timerTest;
         private System.Windows.Forms.Label labelDuration;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
