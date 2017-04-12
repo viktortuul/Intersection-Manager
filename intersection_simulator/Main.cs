@@ -381,8 +381,8 @@ namespace car_simulation
                             // if collision risk with vehicle, adjust speed (probes through all vehicles with distance in descending order)
                             if (vehicles_relevant[j].passed == false && collision_risk(vehicles_relevant[i], vehicles_relevant[j]) == true)
                             {
-                                double d_coll_j = get_d_coll(vehicles_relevant[i], vehicles_relevant[j]);
-                                double d_coll_i = get_d_coll(vehicles_relevant[j], vehicles_relevant[i]);
+                                double d_coll_i = get_d_coll(vehicles_relevant[i], vehicles_relevant[j]);
+                                double d_coll_j = get_d_coll(vehicles_relevant[j], vehicles_relevant[i]);
 
                                 double d_m = distMargin + vehicles_relevant[i].length / 2 + vehicles_relevant[j].length / 2;
 
@@ -422,9 +422,9 @@ namespace car_simulation
         private double get_d_coll(Vehicle vehicle1, Vehicle vehicle2)
         {
             double result;
-            int i = get_tajectory_index(vehicle1);
-            int j = get_tajectory_index(vehicle2);
-            result = d0[j, i];
+            int a = get_tajectory_index(vehicle1);
+            int b = get_tajectory_index(vehicle2);
+            result = d0[a, b];
             return result;
         }
 
@@ -762,7 +762,7 @@ namespace car_simulation
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            T_margin = Convert.ToDouble(numericUpDown_margin.Value);
+ 
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

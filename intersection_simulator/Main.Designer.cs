@@ -35,8 +35,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.numericUpDown_margin = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.buttonN = new System.Windows.Forms.Button();
             this.buttonE = new System.Windows.Forms.Button();
@@ -77,7 +75,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_margin)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).BeginInit();
@@ -150,34 +147,6 @@
             this.checkBox1.Text = "Kör simulering (Kör/Pause)";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // numericUpDown_margin
-            // 
-            this.numericUpDown_margin.DecimalPlaces = 1;
-            this.numericUpDown_margin.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.numericUpDown_margin.Location = new System.Drawing.Point(6, 34);
-            this.numericUpDown_margin.Name = "numericUpDown_margin";
-            this.numericUpDown_margin.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown_margin.TabIndex = 9;
-            this.numericUpDown_margin.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDown_margin.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(146, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Tidsmarginal mellan fordon [s]";
             // 
             // checkBox2
             // 
@@ -328,11 +297,9 @@
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.numericUpDownDistMargin);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.numericUpDown_margin);
-            this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(14, 490);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(194, 188);
+            this.groupBox3.Size = new System.Drawing.Size(194, 161);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parametrar för kontrollalgorim";
@@ -340,7 +307,7 @@
             // numericUpDownSpawnSpeed
             // 
             this.numericUpDownSpawnSpeed.DecimalPlaces = 1;
-            this.numericUpDownSpawnSpeed.Location = new System.Drawing.Point(8, 164);
+            this.numericUpDownSpawnSpeed.Location = new System.Drawing.Point(8, 130);
             this.numericUpDownSpawnSpeed.Name = "numericUpDownSpawnSpeed";
             this.numericUpDownSpawnSpeed.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownSpawnSpeed.TabIndex = 15;
@@ -354,7 +321,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 148);
+            this.label7.Location = new System.Drawing.Point(6, 69);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(85, 13);
             this.label7.TabIndex = 16;
@@ -363,7 +330,7 @@
             // numericUpDownSpeedLimit
             // 
             this.numericUpDownSpeedLimit.DecimalPlaces = 1;
-            this.numericUpDownSpeedLimit.Location = new System.Drawing.Point(8, 119);
+            this.numericUpDownSpeedLimit.Location = new System.Drawing.Point(8, 85);
             this.numericUpDownSpeedLimit.Name = "numericUpDownSpeedLimit";
             this.numericUpDownSpeedLimit.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownSpeedLimit.TabIndex = 13;
@@ -377,7 +344,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 103);
+            this.label1.Location = new System.Drawing.Point(6, 114);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 14;
@@ -386,12 +353,12 @@
             // numericUpDownDistMargin
             // 
             this.numericUpDownDistMargin.DecimalPlaces = 1;
-            this.numericUpDownDistMargin.Location = new System.Drawing.Point(8, 74);
+            this.numericUpDownDistMargin.Location = new System.Drawing.Point(8, 40);
             this.numericUpDownDistMargin.Name = "numericUpDownDistMargin";
             this.numericUpDownDistMargin.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownDistMargin.TabIndex = 11;
             this.numericUpDownDistMargin.Value = new decimal(new int[] {
-            10,
+            20,
             0,
             0,
             0});
@@ -400,7 +367,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 58);
+            this.label5.Location = new System.Drawing.Point(5, 24);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(164, 13);
             this.label5.TabIndex = 12;
@@ -640,7 +607,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_margin)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -669,8 +635,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown_margin;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button buttonN;
         private System.Windows.Forms.Button buttonE;
