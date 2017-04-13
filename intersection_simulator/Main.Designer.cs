@@ -1,4 +1,4 @@
-﻿namespace car_simulation
+﻿namespace Main
 {
     partial class MainFrame
     {
@@ -29,91 +29,89 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.buttonM = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnAll = new System.Windows.Forms.Button();
+            this.pbSimulation = new System.Windows.Forms.PictureBox();
             this.timer_simulation = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.buttonN = new System.Windows.Forms.Button();
-            this.buttonE = new System.Windows.Forms.Button();
-            this.buttonW = new System.Windows.Forms.Button();
-            this.buttonS = new System.Windows.Forms.Button();
+            this.cBRun = new System.Windows.Forms.CheckBox();
+            this.cBShowGhost = new System.Windows.Forms.CheckBox();
+            this.btnN = new System.Windows.Forms.Button();
+            this.btnE = new System.Windows.Forms.Button();
+            this.btnW = new System.Windows.Forms.Button();
+            this.btnS = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBoxTarget = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cBTarget = new System.Windows.Forms.CheckBox();
+            this.btnRand = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.numericUpDownZoomValue = new System.Windows.Forms.NumericUpDown();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.cBShowZones = new System.Windows.Forms.CheckBox();
+            this.nudZoom = new System.Windows.Forms.NumericUpDown();
+            this.cBZoom = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownDelayAIM = new System.Windows.Forms.NumericUpDown();
+            this.nudDelayAIM = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDownSpawnSpeed = new System.Windows.Forms.NumericUpDown();
+            this.nudSpawnSpeed = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDownSpeedLimit = new System.Windows.Forms.NumericUpDown();
+            this.nudSpeedLimit = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownDistMargin = new System.Windows.Forms.NumericUpDown();
+            this.nudDistMargin = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tBApproachingVehicles = new System.Windows.Forms.TextBox();
             this.timer_print = new System.Windows.Forms.Timer(this.components);
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.buttonTest = new System.Windows.Forms.Button();
+            this.btnStartTest = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.numericUpDownDelay = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownTestLength = new System.Windows.Forms.NumericUpDown();
+            this.nudDelay = new System.Windows.Forms.NumericUpDown();
+            this.nudTestLength = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.labelDuration = new System.Windows.Forms.Label();
-            this.timerTest = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pbProjection = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudZoom)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelayAIM)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpawnSpeed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedLimit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDistMargin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTestLength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDelayAIM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSpawnSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSpeedLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDistMargin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTestLength)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbProjection)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonM
+            // btnAll
             // 
-            this.buttonM.Location = new System.Drawing.Point(69, 59);
-            this.buttonM.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonM.Name = "buttonM";
-            this.buttonM.Size = new System.Drawing.Size(50, 25);
-            this.buttonM.TabIndex = 0;
-            this.buttonM.Text = "Alla";
-            this.buttonM.UseVisualStyleBackColor = true;
-            this.buttonM.Click += new System.EventHandler(this.button1_Click);
+            this.btnAll.Location = new System.Drawing.Point(49, 58);
+            this.btnAll.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAll.Name = "btnAll";
+            this.btnAll.Size = new System.Drawing.Size(40, 40);
+            this.btnAll.TabIndex = 0;
+            this.btnAll.Text = "All";
+            this.btnAll.UseVisualStyleBackColor = true;
+            this.btnAll.Click += new System.EventHandler(this.button1_Click);
             // 
-            // pictureBox1
+            // pbSimulation
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(410, 3);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(805, 805);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.pbSimulation.BackColor = System.Drawing.Color.White;
+            this.pbSimulation.Location = new System.Drawing.Point(410, 3);
+            this.pbSimulation.Margin = new System.Windows.Forms.Padding(2);
+            this.pbSimulation.Name = "pbSimulation";
+            this.pbSimulation.Size = new System.Drawing.Size(805, 805);
+            this.pbSimulation.TabIndex = 2;
+            this.pbSimulation.TabStop = false;
             // 
             // timer_simulation
             // 
             this.timer_simulation.Interval = 10;
-            this.timer_simulation.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer_simulation.Tick += new System.EventHandler(this.timer_simulation_Tick);
             // 
             // label3
             // 
@@ -121,276 +119,276 @@
             this.label3.Location = new System.Drawing.Point(6, 4);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(139, 13);
+            this.label3.Size = new System.Drawing.Size(93, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Fordon på väg mot korsning";
+            this.label3.Text = "Vehicles in system";
             // 
-            // checkBox1
+            // cBRun
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(6, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(151, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Kör simulering (Kör/Pause)";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.cBRun.AutoSize = true;
+            this.cBRun.Checked = true;
+            this.cBRun.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cBRun.Location = new System.Drawing.Point(6, 19);
+            this.cBRun.Name = "cBRun";
+            this.cBRun.Size = new System.Drawing.Size(46, 17);
+            this.cBRun.TabIndex = 8;
+            this.cBRun.Text = "Run";
+            this.cBRun.UseVisualStyleBackColor = true;
+            this.cBRun.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // checkBox2
+            // cBShowGhost
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 42);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(94, 17);
-            this.checkBox2.TabIndex = 11;
-            this.checkBox2.Text = "Visa spök-bilar";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.cBShowGhost.AutoSize = true;
+            this.cBShowGhost.Location = new System.Drawing.Point(6, 65);
+            this.cBShowGhost.Name = "cBShowGhost";
+            this.cBShowGhost.Size = new System.Drawing.Size(82, 17);
+            this.cBShowGhost.TabIndex = 11;
+            this.cBShowGhost.Text = "Show ghost";
+            this.cBShowGhost.UseVisualStyleBackColor = true;
+            this.cBShowGhost.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // buttonN
+            // btnN
             // 
-            this.buttonN.Location = new System.Drawing.Point(69, 19);
-            this.buttonN.Name = "buttonN";
-            this.buttonN.Size = new System.Drawing.Size(50, 40);
-            this.buttonN.TabIndex = 12;
-            this.buttonN.Text = "Norr";
-            this.buttonN.UseVisualStyleBackColor = true;
-            this.buttonN.Click += new System.EventHandler(this.buttonN_Click);
+            this.btnN.Location = new System.Drawing.Point(49, 18);
+            this.btnN.Name = "btnN";
+            this.btnN.Size = new System.Drawing.Size(40, 40);
+            this.btnN.TabIndex = 12;
+            this.btnN.Text = "N";
+            this.btnN.UseVisualStyleBackColor = true;
+            this.btnN.Click += new System.EventHandler(this.buttonN_Click);
             // 
-            // buttonE
+            // btnE
             // 
-            this.buttonE.Location = new System.Drawing.Point(124, 66);
-            this.buttonE.Name = "buttonE";
-            this.buttonE.Size = new System.Drawing.Size(50, 40);
-            this.buttonE.TabIndex = 13;
-            this.buttonE.Text = "Öst";
-            this.buttonE.UseVisualStyleBackColor = true;
-            this.buttonE.Click += new System.EventHandler(this.buttonE_Click);
+            this.btnE.Location = new System.Drawing.Point(89, 58);
+            this.btnE.Name = "btnE";
+            this.btnE.Size = new System.Drawing.Size(40, 40);
+            this.btnE.TabIndex = 13;
+            this.btnE.Text = "E";
+            this.btnE.UseVisualStyleBackColor = true;
+            this.btnE.Click += new System.EventHandler(this.buttonE_Click);
             // 
-            // buttonW
+            // btnW
             // 
-            this.buttonW.Location = new System.Drawing.Point(14, 65);
-            this.buttonW.Name = "buttonW";
-            this.buttonW.Size = new System.Drawing.Size(50, 40);
-            this.buttonW.TabIndex = 14;
-            this.buttonW.Text = "Väst";
-            this.buttonW.UseVisualStyleBackColor = true;
-            this.buttonW.Click += new System.EventHandler(this.buttonW_Click);
+            this.btnW.Location = new System.Drawing.Point(9, 58);
+            this.btnW.Name = "btnW";
+            this.btnW.Size = new System.Drawing.Size(40, 40);
+            this.btnW.TabIndex = 14;
+            this.btnW.Text = "W";
+            this.btnW.UseVisualStyleBackColor = true;
+            this.btnW.Click += new System.EventHandler(this.buttonW_Click);
             // 
-            // buttonS
+            // btnS
             // 
-            this.buttonS.Location = new System.Drawing.Point(69, 109);
-            this.buttonS.Name = "buttonS";
-            this.buttonS.Size = new System.Drawing.Size(50, 40);
-            this.buttonS.TabIndex = 15;
-            this.buttonS.Text = "Söder";
-            this.buttonS.UseVisualStyleBackColor = true;
-            this.buttonS.Click += new System.EventHandler(this.buttonS_Click);
+            this.btnS.Location = new System.Drawing.Point(49, 98);
+            this.btnS.Name = "btnS";
+            this.btnS.Size = new System.Drawing.Size(40, 40);
+            this.btnS.TabIndex = 15;
+            this.btnS.Text = "S";
+            this.btnS.UseVisualStyleBackColor = true;
+            this.btnS.Click += new System.EventHandler(this.buttonS_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBoxTarget);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.buttonN);
-            this.groupBox1.Controls.Add(this.buttonS);
-            this.groupBox1.Controls.Add(this.buttonM);
-            this.groupBox1.Controls.Add(this.buttonW);
-            this.groupBox1.Controls.Add(this.buttonE);
+            this.groupBox1.Controls.Add(this.cBTarget);
+            this.groupBox1.Controls.Add(this.btnRand);
+            this.groupBox1.Controls.Add(this.btnN);
+            this.groupBox1.Controls.Add(this.btnS);
+            this.groupBox1.Controls.Add(this.btnAll);
+            this.groupBox1.Controls.Add(this.btnW);
+            this.groupBox1.Controls.Add(this.btnE);
             this.groupBox1.Location = new System.Drawing.Point(213, 452);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(187, 175);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Lägg till fordon";
+            this.groupBox1.Text = "Manual Spawn";
             // 
-            // checkBoxTarget
+            // cBTarget
             // 
-            this.checkBoxTarget.AutoSize = true;
-            this.checkBoxTarget.Checked = true;
-            this.checkBoxTarget.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTarget.Location = new System.Drawing.Point(6, 154);
-            this.checkBoxTarget.Name = "checkBoxTarget";
-            this.checkBoxTarget.Size = new System.Drawing.Size(165, 17);
-            this.checkBoxTarget.TabIndex = 12;
-            this.checkBoxTarget.Text = "Slumpa mål (annars rakt fram)";
-            this.checkBoxTarget.UseVisualStyleBackColor = true;
-            this.checkBoxTarget.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.cBTarget.AutoSize = true;
+            this.cBTarget.Checked = true;
+            this.cBTarget.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cBTarget.Location = new System.Drawing.Point(9, 152);
+            this.cBTarget.Name = "cBTarget";
+            this.cBTarget.Size = new System.Drawing.Size(96, 17);
+            this.cBTarget.TabIndex = 12;
+            this.cBTarget.Text = "Random target";
+            this.cBTarget.UseVisualStyleBackColor = true;
+            this.cBTarget.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
-            // button1
+            // btnRand
             // 
-            this.button1.Location = new System.Drawing.Point(69, 84);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 25);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Slump";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnRand.Location = new System.Drawing.Point(89, 98);
+            this.btnRand.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRand.Name = "btnRand";
+            this.btnRand.Size = new System.Drawing.Size(82, 40);
+            this.btnRand.TabIndex = 16;
+            this.btnRand.Text = "Rand";
+            this.btnRand.UseVisualStyleBackColor = true;
+            this.btnRand.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox4);
-            this.groupBox2.Controls.Add(this.numericUpDownZoomValue);
-            this.groupBox2.Controls.Add(this.checkBox3);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.cBShowZones);
+            this.groupBox2.Controls.Add(this.nudZoom);
+            this.groupBox2.Controls.Add(this.cBZoom);
+            this.groupBox2.Controls.Add(this.cBRun);
+            this.groupBox2.Controls.Add(this.cBShowGhost);
             this.groupBox2.Location = new System.Drawing.Point(14, 451);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(194, 91);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Simulering";
+            this.groupBox2.Text = "Simulation";
             // 
-            // checkBox4
+            // cBShowZones
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(107, 42);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(75, 17);
-            this.checkBox4.TabIndex = 22;
-            this.checkBox4.Text = "Visa zoner";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            this.cBShowZones.AutoSize = true;
+            this.cBShowZones.Location = new System.Drawing.Point(6, 42);
+            this.cBShowZones.Name = "cBShowZones";
+            this.cBShowZones.Size = new System.Drawing.Size(84, 17);
+            this.cBShowZones.TabIndex = 22;
+            this.cBShowZones.Text = "Show zones";
+            this.cBShowZones.UseVisualStyleBackColor = true;
+            this.cBShowZones.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
-            // numericUpDownZoomValue
+            // nudZoom
             // 
-            this.numericUpDownZoomValue.Location = new System.Drawing.Point(55, 64);
-            this.numericUpDownZoomValue.Name = "numericUpDownZoomValue";
-            this.numericUpDownZoomValue.Size = new System.Drawing.Size(45, 20);
-            this.numericUpDownZoomValue.TabIndex = 21;
-            this.numericUpDownZoomValue.Value = new decimal(new int[] {
+            this.nudZoom.Location = new System.Drawing.Point(117, 18);
+            this.nudZoom.Name = "nudZoom";
+            this.nudZoom.Size = new System.Drawing.Size(38, 20);
+            this.nudZoom.TabIndex = 21;
+            this.nudZoom.Value = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDownZoomValue.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged_1);
+            this.nudZoom.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged_1);
             // 
-            // checkBox3
+            // cBZoom
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 65);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(56, 17);
-            this.checkBox3.TabIndex = 20;
-            this.checkBox3.Text = "Zoom:";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged_1);
+            this.cBZoom.AutoSize = true;
+            this.cBZoom.Location = new System.Drawing.Point(58, 19);
+            this.cBZoom.Name = "cBZoom";
+            this.cBZoom.Size = new System.Drawing.Size(53, 17);
+            this.cBZoom.TabIndex = 20;
+            this.cBZoom.Text = "Zoom";
+            this.cBZoom.UseVisualStyleBackColor = true;
+            this.cBZoom.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged_1);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.numericUpDownDelayAIM);
+            this.groupBox3.Controls.Add(this.nudDelayAIM);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.numericUpDownSpawnSpeed);
+            this.groupBox3.Controls.Add(this.nudSpawnSpeed);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.numericUpDownSpeedLimit);
+            this.groupBox3.Controls.Add(this.nudSpeedLimit);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.numericUpDownDistMargin);
+            this.groupBox3.Controls.Add(this.nudDistMargin);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Location = new System.Drawing.Point(14, 548);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(194, 220);
+            this.groupBox3.Size = new System.Drawing.Size(194, 209);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Parametrar för kontrollalgorim";
+            this.groupBox3.Text = "AIM parameters";
             // 
-            // numericUpDownDelayAIM
+            // nudDelayAIM
             // 
-            this.numericUpDownDelayAIM.DecimalPlaces = 1;
-            this.numericUpDownDelayAIM.Increment = new decimal(new int[] {
+            this.nudDelayAIM.DecimalPlaces = 1;
+            this.nudDelayAIM.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDownDelayAIM.Location = new System.Drawing.Point(8, 178);
-            this.numericUpDownDelayAIM.Name = "numericUpDownDelayAIM";
-            this.numericUpDownDelayAIM.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownDelayAIM.TabIndex = 17;
-            this.numericUpDownDelayAIM.Value = new decimal(new int[] {
+            this.nudDelayAIM.Location = new System.Drawing.Point(8, 164);
+            this.nudDelayAIM.Name = "nudDelayAIM";
+            this.nudDelayAIM.Size = new System.Drawing.Size(120, 20);
+            this.nudDelayAIM.TabIndex = 17;
+            this.nudDelayAIM.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDownDelayAIM.ValueChanged += new System.EventHandler(this.numericUpDownDelayAIM_ValueChanged);
+            this.nudDelayAIM.ValueChanged += new System.EventHandler(this.numericUpDownDelayAIM_ValueChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 162);
+            this.label2.Location = new System.Drawing.Point(8, 148);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.Size = new System.Drawing.Size(93, 13);
             this.label2.TabIndex = 18;
-            this.label2.Text = "Delay AIM [s]";
+            this.label2.Text = "Controller delay [s]";
             // 
-            // numericUpDownSpawnSpeed
+            // nudSpawnSpeed
             // 
-            this.numericUpDownSpawnSpeed.DecimalPlaces = 1;
-            this.numericUpDownSpawnSpeed.Location = new System.Drawing.Point(8, 130);
-            this.numericUpDownSpawnSpeed.Name = "numericUpDownSpawnSpeed";
-            this.numericUpDownSpawnSpeed.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownSpawnSpeed.TabIndex = 15;
-            this.numericUpDownSpawnSpeed.Value = new decimal(new int[] {
+            this.nudSpawnSpeed.DecimalPlaces = 1;
+            this.nudSpawnSpeed.Location = new System.Drawing.Point(8, 122);
+            this.nudSpawnSpeed.Name = "nudSpawnSpeed";
+            this.nudSpawnSpeed.Size = new System.Drawing.Size(120, 20);
+            this.nudSpawnSpeed.TabIndex = 15;
+            this.nudSpawnSpeed.Value = new decimal(new int[] {
             30,
             0,
             0,
             0});
-            this.numericUpDownSpawnSpeed.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
+            this.nudSpawnSpeed.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 114);
+            this.label7.Location = new System.Drawing.Point(8, 106);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(85, 13);
+            this.label7.Size = new System.Drawing.Size(99, 13);
             this.label7.TabIndex = 16;
-            this.label7.Text = "Spawn fart [m/s]";
+            this.label7.Text = "Spawn speed [m/s]";
             // 
-            // numericUpDownSpeedLimit
+            // nudSpeedLimit
             // 
-            this.numericUpDownSpeedLimit.DecimalPlaces = 1;
-            this.numericUpDownSpeedLimit.Location = new System.Drawing.Point(8, 85);
-            this.numericUpDownSpeedLimit.Name = "numericUpDownSpeedLimit";
-            this.numericUpDownSpeedLimit.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownSpeedLimit.TabIndex = 13;
-            this.numericUpDownSpeedLimit.Value = new decimal(new int[] {
+            this.nudSpeedLimit.DecimalPlaces = 1;
+            this.nudSpeedLimit.Location = new System.Drawing.Point(8, 80);
+            this.nudSpeedLimit.Name = "nudSpeedLimit";
+            this.nudSpeedLimit.Size = new System.Drawing.Size(120, 20);
+            this.nudSpeedLimit.TabIndex = 13;
+            this.nudSpeedLimit.Value = new decimal(new int[] {
             30,
             0,
             0,
             0});
-            this.numericUpDownSpeedLimit.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            this.nudSpeedLimit.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 69);
+            this.label1.Location = new System.Drawing.Point(7, 64);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(85, 13);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Fartgräns [m/s]";
+            this.label1.Text = "Speed limit [m/s]";
             // 
-            // numericUpDownDistMargin
+            // nudDistMargin
             // 
-            this.numericUpDownDistMargin.DecimalPlaces = 1;
-            this.numericUpDownDistMargin.Location = new System.Drawing.Point(8, 40);
-            this.numericUpDownDistMargin.Name = "numericUpDownDistMargin";
-            this.numericUpDownDistMargin.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownDistMargin.TabIndex = 11;
-            this.numericUpDownDistMargin.Value = new decimal(new int[] {
+            this.nudDistMargin.DecimalPlaces = 1;
+            this.nudDistMargin.Location = new System.Drawing.Point(8, 37);
+            this.nudDistMargin.Name = "nudDistMargin";
+            this.nudDistMargin.Size = new System.Drawing.Size(120, 20);
+            this.nudDistMargin.TabIndex = 11;
+            this.nudDistMargin.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDownDistMargin.ValueChanged += new System.EventHandler(this.numericUpDownDistMargin_ValueChanged);
+            this.nudDistMargin.ValueChanged += new System.EventHandler(this.numericUpDownDistMargin_ValueChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 24);
+            this.label5.Location = new System.Drawing.Point(5, 21);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(164, 13);
+            this.label5.Size = new System.Drawing.Size(100, 13);
             this.label5.TabIndex = 12;
-            this.label5.Text = "Distansmarginal mellan fordon [m]";
+            this.label5.Text = "Distance margin [m]";
             // 
             // label6
             // 
@@ -401,24 +399,17 @@
             this.label6.TabIndex = 20;
             this.label6.Text = "Simulation time [s]:";
             // 
-            // textBox1
+            // tBApproachingVehicles
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 20);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(391, 15);
-            this.textBox1.TabIndex = 22;
-            this.textBox1.Visible = false;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(9, 20);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(391, 425);
-            this.textBox2.TabIndex = 23;
+            this.tBApproachingVehicles.BackColor = System.Drawing.Color.White;
+            this.tBApproachingVehicles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tBApproachingVehicles.Location = new System.Drawing.Point(9, 21);
+            this.tBApproachingVehicles.Multiline = true;
+            this.tBApproachingVehicles.Name = "tBApproachingVehicles";
+            this.tBApproachingVehicles.ReadOnly = true;
+            this.tBApproachingVehicles.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tBApproachingVehicles.Size = new System.Drawing.Size(391, 425);
+            this.tBApproachingVehicles.TabIndex = 23;
             // 
             // timer_print
             // 
@@ -438,65 +429,65 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(8, 19);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(73, 13);
+            this.label9.Size = new System.Drawing.Size(91, 13);
             this.label9.TabIndex = 17;
-            this.label9.Text = "Fördröjning [s]";
+            this.label9.Text = "Spawn interval [s]";
             // 
-            // buttonTest
+            // btnStartTest
             // 
-            this.buttonTest.Location = new System.Drawing.Point(87, 30);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(75, 50);
-            this.buttonTest.TabIndex = 25;
-            this.buttonTest.Text = "Starta Test";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.button2_Click);
+            this.btnStartTest.Location = new System.Drawing.Point(106, 72);
+            this.btnStartTest.Name = "btnStartTest";
+            this.btnStartTest.Size = new System.Drawing.Size(75, 50);
+            this.btnStartTest.TabIndex = 25;
+            this.btnStartTest.Text = "Start Test";
+            this.btnStartTest.UseVisualStyleBackColor = true;
+            this.btnStartTest.Click += new System.EventHandler(this.button2_Click);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(7, 58);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 13);
+            this.label10.Size = new System.Drawing.Size(83, 13);
             this.label10.TabIndex = 26;
-            this.label10.Text = "Testlängd [s]";
+            this.label10.Text = "Test duration [s]";
             // 
-            // numericUpDownDelay
+            // nudDelay
             // 
-            this.numericUpDownDelay.DecimalPlaces = 1;
-            this.numericUpDownDelay.Increment = new decimal(new int[] {
+            this.nudDelay.DecimalPlaces = 1;
+            this.nudDelay.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDownDelay.Location = new System.Drawing.Point(11, 35);
-            this.numericUpDownDelay.Name = "numericUpDownDelay";
-            this.numericUpDownDelay.Size = new System.Drawing.Size(63, 20);
-            this.numericUpDownDelay.TabIndex = 17;
-            this.numericUpDownDelay.Value = new decimal(new int[] {
+            this.nudDelay.Location = new System.Drawing.Point(11, 35);
+            this.nudDelay.Name = "nudDelay";
+            this.nudDelay.Size = new System.Drawing.Size(63, 20);
+            this.nudDelay.TabIndex = 17;
+            this.nudDelay.Value = new decimal(new int[] {
             5,
             0,
             0,
             65536});
             // 
-            // numericUpDownTestLength
+            // nudTestLength
             // 
-            this.numericUpDownTestLength.DecimalPlaces = 1;
-            this.numericUpDownTestLength.Increment = new decimal(new int[] {
+            this.nudTestLength.DecimalPlaces = 1;
+            this.nudTestLength.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDownTestLength.Location = new System.Drawing.Point(11, 74);
-            this.numericUpDownTestLength.Maximum = new decimal(new int[] {
+            this.nudTestLength.Location = new System.Drawing.Point(11, 74);
+            this.nudTestLength.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericUpDownTestLength.Name = "numericUpDownTestLength";
-            this.numericUpDownTestLength.Size = new System.Drawing.Size(63, 20);
-            this.numericUpDownTestLength.TabIndex = 27;
-            this.numericUpDownTestLength.Value = new decimal(new int[] {
+            this.nudTestLength.Name = "nudTestLength";
+            this.nudTestLength.Size = new System.Drawing.Size(63, 20);
+            this.nudTestLength.TabIndex = 27;
+            this.nudTestLength.Value = new decimal(new int[] {
             60,
             0,
             0,
@@ -505,10 +496,10 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.labelDuration);
-            this.groupBox4.Controls.Add(this.numericUpDownTestLength);
+            this.groupBox4.Controls.Add(this.nudTestLength);
             this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.numericUpDownDelay);
-            this.groupBox4.Controls.Add(this.buttonTest);
+            this.groupBox4.Controls.Add(this.nudDelay);
+            this.groupBox4.Controls.Add(this.btnStartTest);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Location = new System.Drawing.Point(213, 629);
             this.groupBox4.Name = "groupBox4";
@@ -520,20 +511,20 @@
             // labelDuration
             // 
             this.labelDuration.AutoSize = true;
-            this.labelDuration.Location = new System.Drawing.Point(11, 97);
+            this.labelDuration.Location = new System.Drawing.Point(11, 103);
             this.labelDuration.Name = "labelDuration";
             this.labelDuration.Size = new System.Drawing.Size(67, 13);
             this.labelDuration.TabIndex = 28;
             this.labelDuration.Text = "Duration: 0 s";
             // 
-            // pictureBox2
+            // pbProjection
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.Location = new System.Drawing.Point(1219, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(400, 500);
-            this.pictureBox2.TabIndex = 30;
-            this.pictureBox2.TabStop = false;
+            this.pbProjection.BackColor = System.Drawing.Color.White;
+            this.pbProjection.Location = new System.Drawing.Point(1219, 3);
+            this.pbProjection.Name = "pbProjection";
+            this.pbProjection.Size = new System.Drawing.Size(400, 500);
+            this.pbProjection.TabIndex = 30;
+            this.pbProjection.TabStop = false;
             // 
             // label12
             // 
@@ -590,39 +581,38 @@
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pbProjection);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tBApproachingVehicles);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pbSimulation);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainFrame";
             this.Text = "Intersection Simulator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Load += new System.EventHandler(this.MainFrame_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomValue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudZoom)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelayAIM)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpawnSpeed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedLimit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDistMargin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDelay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTestLength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDelayAIM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSpawnSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSpeedLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDistMargin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTestLength)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbProjection)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -630,51 +620,49 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonM;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Timer timer_simulation;
+        private System.Windows.Forms.Button btnAll;
+        private System.Windows.Forms.PictureBox pbSimulation;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Button buttonN;
-        private System.Windows.Forms.Button buttonE;
-        private System.Windows.Forms.Button buttonW;
-        private System.Windows.Forms.Button buttonS;
+        private System.Windows.Forms.CheckBox cBRun;
+        private System.Windows.Forms.CheckBox cBShowGhost;
+        private System.Windows.Forms.Button btnN;
+        private System.Windows.Forms.Button btnE;
+        private System.Windows.Forms.Button btnW;
+        private System.Windows.Forms.Button btnS;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox checkBoxTarget;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.NumericUpDown numericUpDownDistMargin;
+        private System.Windows.Forms.Button btnRand;
+        private System.Windows.Forms.CheckBox cBTarget;
+        private System.Windows.Forms.CheckBox cBZoom;
+        private System.Windows.Forms.NumericUpDown nudDistMargin;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.NumericUpDown numericUpDownZoomValue;
-        private System.Windows.Forms.NumericUpDown numericUpDownSpeedLimit;
+        private System.Windows.Forms.TextBox tBApproachingVehicles;
+        private System.Windows.Forms.NumericUpDown nudZoom;
+        private System.Windows.Forms.NumericUpDown nudSpeedLimit;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDownSpawnSpeed;
+        private System.Windows.Forms.NumericUpDown nudSpawnSpeed;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Timer timer_print;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox cBShowZones;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button buttonTest;
+        private System.Windows.Forms.Button btnStartTest;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown numericUpDownDelay;
-        private System.Windows.Forms.NumericUpDown numericUpDownTestLength;
+        private System.Windows.Forms.NumericUpDown nudDelay;
+        private System.Windows.Forms.NumericUpDown nudTestLength;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Timer timerTest;
         private System.Windows.Forms.Label labelDuration;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pbProjection;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.NumericUpDown numericUpDownDelayAIM;
+        private System.Windows.Forms.NumericUpDown nudDelayAIM;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timer_simulation;
+        private System.Windows.Forms.Timer timer_print;
     }
 }
 
