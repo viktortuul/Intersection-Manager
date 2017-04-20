@@ -611,7 +611,7 @@
             // timerSignal
             // 
             this.timerSignal.Enabled = true;
-            this.timerSignal.Interval = 30000;
+            this.timerSignal.Interval = 20000;
             this.timerSignal.Tick += new System.EventHandler(this.timerSignal_Tick);
             // 
             // label4

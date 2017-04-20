@@ -300,7 +300,8 @@ namespace Main
                 o_x + Convert.ToInt64(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 0 * Math.Sin(vehicle.angle)),
                 o_y + Convert.ToInt64(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 0 * Math.Cos(vehicle.angle)));
 
-            gProj.DrawLine(p_road, Convert.ToInt64(395 - vehicle.dist_to_inter), 490, 395, Convert.ToInt64(490 - 20 * vehicle.dist_to_inter / vehicle.speed));
+            if (traffic_lights == false)
+                gProj.DrawLine(p_road, Convert.ToInt64(395 - vehicle.dist_to_inter), 490, 395, Convert.ToInt64(490 - 20 * vehicle.dist_to_inter / vehicle.speed));
             gProj.DrawLine(p_red, 395, 0, 395, 500);
             gProj.DrawLine(p_red, 395 - simulation_bound, 0, 395 - simulation_bound, 500);
             gProj.DrawLine(p_red, 395 - reservationRadius, 0, 395 - reservationRadius, 500);
