@@ -51,7 +51,7 @@ namespace vehicle
             }
             else if (type == "Bus")
             {
-                length = 10;
+                length = 20;
                 width = 4;
             }
         }
@@ -305,9 +305,9 @@ namespace vehicle
         public void speed_control()
         {
             // controller parameters
-            double Kp = 2000;
-            double Kd = 50;
-            double Ki = 10;
+            double Kp = 500;
+            double Kd = 10;
+            double Ki = 1;
 
             //drag parameters
             double c = 1.5;
@@ -320,6 +320,8 @@ namespace vehicle
             // physical calculations
             double drag = c * density * A * Math.Pow(speed, 2) / 2;
             double Power = Kp * error + Kd * error_derivative + Ki * error_integral;
+            if (Power > 6000)
+                Power = 6000;
             acceleration = (Power - drag) / mass;
 
             // update speed

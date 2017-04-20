@@ -72,6 +72,12 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.cbTrafficLights = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.timerSignal = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.timerYellow = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -571,11 +577,65 @@
             this.label16.TabIndex = 35;
             this.label16.Text = "10s";
             // 
+            // cbTrafficLights
+            // 
+            this.cbTrafficLights.AutoSize = true;
+            this.cbTrafficLights.Location = new System.Drawing.Point(1237, 550);
+            this.cbTrafficLights.Name = "cbTrafficLights";
+            this.cbTrafficLights.Size = new System.Drawing.Size(87, 17);
+            this.cbTrafficLights.TabIndex = 36;
+            this.cbTrafficLights.Text = "Traffic Lights";
+            this.cbTrafficLights.UseVisualStyleBackColor = true;
+            this.cbTrafficLights.CheckedChanged += new System.EventHandler(this.cbTrafficLights_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1796, 24);
+            this.menuStrip1.TabIndex = 37;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Location = new System.Drawing.Point(1220, 629);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(413, 220);
+            this.textBox1.TabIndex = 38;
+            // 
+            // timerSignal
+            // 
+            this.timerSignal.Enabled = true;
+            this.timerSignal.Interval = 30000;
+            this.timerSignal.Tick += new System.EventHandler(this.timerSignal_Tick);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(1258, 577);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 13);
+            this.label4.TabIndex = 39;
+            this.label4.Text = "Green light: ";
+            // 
+            // timerYellow
+            // 
+            this.timerYellow.Interval = 5000;
+            this.timerYellow.Tick += new System.EventHandler(this.timerYellow_Tick);
+            // 
             // MainFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1796, 928);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.cbTrafficLights);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
@@ -591,6 +651,8 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pbSimulation);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainFrame";
             this.Text = "Intersection Simulator";
@@ -663,6 +725,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer_simulation;
         private System.Windows.Forms.Timer timer_print;
+        private System.Windows.Forms.CheckBox cbTrafficLights;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Timer timerSignal;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Timer timerYellow;
     }
 }
 

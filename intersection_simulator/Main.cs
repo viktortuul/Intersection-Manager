@@ -10,6 +10,7 @@ using System.IO;
 using vehicle;
 using AutonomousIntersectionManager;
 using Spawn_Vehicles;
+using trafficLight;
 
 namespace Main
 {
@@ -17,6 +18,12 @@ namespace Main
     {
         // test running
         bool test_running = false;
+
+        // traffic lights
+        public static bool traffic_lights = false;
+        public static string green_light = "West";
+        public static bool yellow_light = false;
+
 
         // Init time parameters
         double Time_Global = 0;
@@ -32,7 +39,7 @@ namespace Main
 
         // bounds
         int simulation_bound = 400;
-        public static int reservationRadius = 350;//300;
+        public static int reservationRadius = 350;//350;
         int criticalRadius = 0;// Convert.ToInt16(Math.Sqrt(2));
 
         // lists containing vehicles
@@ -90,8 +97,8 @@ namespace Main
         Pen p_red = new Pen(Color.Red, 1);
         Pen p_car = new Pen(Color.Red, 3);
         Pen p_car_g = new Pen(Color.Gray, 3);
-        Pen p_bus = new Pen(Color.Red, 5);
-        Pen p_bus_g = new Pen(Color.Gray, 5);
+        Pen p_bus = new Pen(Color.Red, 3);
+        Pen p_bus_g = new Pen(Color.Gray, 3);
         Graphics g;
         Graphics gProj;
         Bitmap bm = new Bitmap(1000, 1000);
@@ -165,12 +172,20 @@ namespace Main
             if (test_running == true)
                 test_action();
 
-            // Apply AIM controller, with the specified delay. 
-            if (Time_Global % delay_AIM < dt)
+            if (traffic_lights == false)
             {
-                AIM.apply_trafficmanager(vehicles);
-                AIM.controller_distance_topbottom();
+                if (Time_Global % delay_AIM < dt)
+                {
+                    AIM.apply_trafficmanager(vehicles);
+                    AIM.controller_distance_topbottom();
+                }
             }
+            else
+            {
+                TrafficSignalController.apply_signal(vehicles);
+            }
+            // Apply AIM controller, with the specified delay. 
+
 
             // remove vehicles out of bounds
             remove_vehicles();
@@ -403,7 +418,7 @@ namespace Main
                 if (vehicles_ghost[i].dist > simulation_bound) vehicles_ghost.RemoveAt(i);
         }
 
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -517,11 +532,24 @@ namespace Main
             */
 
             present_vehicles = "";
-            foreach (Vehicle vehicle in AIM.vehicles_approaching)
+            if (traffic_lights == true)
             {
-                present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdi: " + Math.Round(vehicle.dist_to_inter) + "\tv: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + " (" + Math.Round(vehicle.speed_request, MidpointRounding.AwayFromZero) + ")\t\tacc: " + Math.Round(vehicle.acceleration, 1) + "\ttraj: " + vehicle.route + "\tT: " + Math.Round(vehicle.T, 1) + Environment.NewLine);
+                foreach (Vehicle vehicle in vehicles)
+                {
+                    if (vehicle.dist_to_inter < 50)
+                        present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdi: " + Math.Round(vehicle.dist_to_inter) + "\tv: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + " (" + Math.Round(vehicle.speed_request, MidpointRounding.AwayFromZero) + ")\t\tacc: " + Math.Round(vehicle.acceleration, 1) + "\ttraj: " + vehicle.route + "\tT: " + Math.Round(vehicle.T, 1) + Environment.NewLine);
+                }
+                tBApproachingVehicles.Text = present_vehicles;
             }
-            tBApproachingVehicles.Text = present_vehicles;
+            else
+            {
+                foreach (Vehicle vehicle in AIM.vehicles_approaching)
+                {
+                    present_vehicles += Convert.ToString("ID: " + vehicle.ID + "\tdi: " + Math.Round(vehicle.dist_to_inter) + "\tv: " + Math.Round(vehicle.speed, MidpointRounding.AwayFromZero) + " (" + Math.Round(vehicle.speed_request, MidpointRounding.AwayFromZero) + ")\t\tacc: " + Math.Round(vehicle.acceleration, 1) + "\ttraj: " + vehicle.route + "\tT: " + Math.Round(vehicle.T, 1) + Environment.NewLine);
+                }
+                tBApproachingVehicles.Text = present_vehicles;
+            }
+
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
@@ -537,6 +565,51 @@ namespace Main
             delay_AIM = Convert.ToDouble(nudDelayAIM.Value);
         }
 
+        private void cbTrafficLights_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbTrafficLights.Checked)
+            {
+                traffic_lights = true;
+                timerSignal.Start();
+            }
+            else
+            {
+                traffic_lights = false;
+                timerSignal.Stop();
+            }
+        }
+
+        private void timerSignal_Tick(object sender, EventArgs e)
+        {
+            timerSignal.Stop();
+            yellow_light = true;
+            timerYellow.Start();
+            label4.Text = "Yellow light";
+        }
+
+        private void timerYellow_Tick(object sender, EventArgs e)
+        {
+            yellow_light = false;
+            if (green_light == "North")
+            {
+                green_light = "East";
+            }
+            else if (green_light == "East")
+            {
+                green_light = "South";
+            }
+            else if (green_light == "South")
+            {
+                green_light = "West";
+            }
+            else if (green_light == "West")
+            {
+                green_light = "North";
+            }
+            label4.Text = "Green light: " + green_light;
+            timerSignal.Start();
+            timerYellow.Stop();
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
