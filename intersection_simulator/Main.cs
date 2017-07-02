@@ -11,6 +11,9 @@ using vehicle;
 using AutonomousIntersectionManager;
 using Spawn_Vehicles;
 using trafficLight;
+using System.Resources;
+using intersection_simulator.Properties;
+using System.Drawing.Drawing2D;
 
 namespace Main
 {
@@ -23,6 +26,8 @@ namespace Main
         public static bool traffic_lights = false;
         public static string green_light = "West";
         public static bool yellow_light = false;
+        public static string nextGreenLight = "North";
+        public ResourceManager rm;
 
 
         // Init time parameters
@@ -395,7 +400,18 @@ namespace Main
                 SolidBrush semiTransBrushRed = new SolidBrush(Color.FromArgb(150, 255, 0, 0));
                 g.DrawEllipse(redPen, Convert.ToInt32(o_x - criticalRadius), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
                 g.FillEllipse(semiTransBrushRed, Convert.ToInt32(o_x - criticalRadius), Convert.ToInt32(o_y - criticalRadius), Convert.ToInt32(2 * criticalRadius), Convert.ToInt32(2 * criticalRadius));
+
             }
+
+            //rm = Resources.ResourceManager;
+            //Bitmap greenSignal1 = (Bitmap)rm.GetObject("SignalGreen.png");
+            Image greenSignal = Image.FromFile("SignalGreenS.png");
+            Image yellowSignal = Image.FromFile("SignalYellowS.png");
+            Image redSignal = Image.FromFile("SignalRedS.png");
+
+
+
+
 
             // Draw double white lines
             g.DrawLine(p_thin, 0, o_y - 1, o_x - laneWidth, o_y - 1);
@@ -406,8 +422,78 @@ namespace Main
             g.DrawLine(p_thin, o_x - 1, o_y + laneWidth, o_x - 1, 1000);
             g.DrawLine(p_thin, o_x + 1, 0, o_x + 1, o_y - laneWidth);
             g.DrawLine(p_thin, o_x + 1, o_y + laneWidth, o_x + 1, 1000);
+
+
+            if (traffic_lights)
+            {
+                // Draw image to screen.
+                int width = 5;
+                int height = 17;
+                double scale = 1.35;
+                int sWidth = Convert.ToInt16(scale * width);
+                int sHeight = Convert.ToInt16(scale * height);
+
+                Image northSignal, eastSignal, southSignal, westSignal;
+
+                northSignal = redSignal;
+                eastSignal = redSignal;
+                southSignal = redSignal;
+                westSignal = redSignal;
+
+               
+                if (green_light == "North")
+                    northSignal = greenSignal;
+                else if (green_light == "East")
+                    eastSignal = greenSignal;
+                else if (green_light == "South")
+                    southSignal = greenSignal;
+                else if (green_light == "West")
+                    westSignal = greenSignal;
+
+                if (yellow_light && (green_light == "North" || nextGreenLight == "North"))
+                    northSignal = yellowSignal;
+                if (yellow_light && (green_light == "East" || nextGreenLight == "East"))
+                    eastSignal = yellowSignal;
+                if (yellow_light && (green_light == "South" || nextGreenLight == "South"))
+                    southSignal = yellowSignal;
+                if (yellow_light && (green_light == "West" || nextGreenLight == "West"))
+                    westSignal = yellowSignal;
+
+               
+
+
+                g.DrawImage(southSignal, o_x + laneWidth + 1, o_y + laneWidth + 7, width, height);
+                g.DrawImage(RotateImage(eastSignal, 270), o_x + laneWidth + 7, o_y - laneWidth - width - 1, height, width);
+                g.DrawImage(RotateImage(northSignal, 180), o_x - laneWidth - 1 - width, o_y - laneWidth - 7 - height, width, height);
+                g.DrawImage(RotateImage(westSignal, 90), o_x - laneWidth - 7 - height, o_y + laneWidth + 1, height, width);
+            }
         }
 
+
+        public Image RotateImage(Image b, float angle)
+        {
+            if (angle > 0)
+            {
+                int l = b.Width;
+                int h = b.Height;
+                double an = angle * Math.PI / 180;
+                double cos = Math.Abs(Math.Cos(an));
+                double sin = Math.Abs(Math.Sin(an));
+                int nl = (int)(l * cos + h * sin);
+                int nh = (int)(l * sin + h * cos);
+                Bitmap returnBitmap = new Bitmap(nl, nh);
+                Graphics g = Graphics.FromImage(returnBitmap);
+                g.TranslateTransform((float)(nl - l) / 2, (float)(nh - h) / 2);
+                g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
+                g.DrawImage(b, new Point(0, 0));
+                return returnBitmap;
+            }
+            else return b;
+        }
+
+       
         private void clear_graphics()
         {
             g = Graphics.FromImage(bm);
@@ -605,22 +691,32 @@ namespace Main
             if (green_light == "North")
             {
                 green_light = "East";
+                nextGreenLight = "South";
             }
             else if (green_light == "East")
             {
                 green_light = "South";
+                nextGreenLight = "West";
             }
             else if (green_light == "South")
             {
                 green_light = "West";
+                nextGreenLight = "North";
             }
             else if (green_light == "West")
             {
                 green_light = "North";
+                nextGreenLight = "East";
+
             }
             label4.Text = "Green light: " + green_light;
             timerSignal.Start();
             timerYellow.Stop();
+        }
+
+        private void pbSimulation_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void button2_Click(object sender, EventArgs e)

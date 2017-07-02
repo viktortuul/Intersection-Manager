@@ -77,7 +77,7 @@ namespace trafficLight
                 for (int i = 1; i <= vehicles_lane.Count() - 1; i++)
                 {
                     double Kp = 1;
-                    double Kd = 0.2;
+                    //double Kd = 0.2;
                     double dist_ref = vehicles_lane[i - 1].dist_to_inter + 15;
 
                     if (MainFrame.green_light == vehicles_lane[0].spawn && MainFrame.yellow_light == false)

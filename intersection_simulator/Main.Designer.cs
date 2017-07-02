@@ -113,6 +113,7 @@
             this.pbSimulation.Size = new System.Drawing.Size(805, 805);
             this.pbSimulation.TabIndex = 2;
             this.pbSimulation.TabStop = false;
+            this.pbSimulation.Click += new System.EventHandler(this.pbSimulation_Click);
             // 
             // timer_simulation
             // 
@@ -592,7 +593,7 @@
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1796, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1436, 24);
             this.menuStrip1.TabIndex = 37;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -631,7 +632,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1796, 928);
+            this.ClientSize = new System.Drawing.Size(1436, 873);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.cbTrafficLights);
