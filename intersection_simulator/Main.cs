@@ -239,9 +239,20 @@ namespace Main
 
         private void test_action()
         {
-            if (time_test % Convert.ToDouble(nudDelay.Value) < 0.01)
+            if (time_test % (Convert.ToDouble(nudDelay.Value)) < 0.01)
             {
-                Spawn.Random();
+                //Spawn.Random();
+
+                if (Spawn.last_spawn == "North")
+                    Spawn.East();
+                else if (Spawn.last_spawn == "East")
+                    Spawn.South();
+                else if (Spawn.last_spawn == "South")
+                    Spawn.West();
+                else if (Spawn.last_spawn == "West")
+                    Spawn.North();
+
+
                 test_vehicles_spawned += 1;
             }
 
@@ -275,8 +286,8 @@ namespace Main
                     test_data_spawned += test_vehicles_spawned + " ";
                     test_data_passed += test_vehicles_passed + " ";
                     test_data_incomingVehicles += AIM.vehicles_approaching.Count + " ";
-                    test_data_dIn += test_vehicles_spawned / time_test + " ";
-                    test_data_dOut += test_vehicles_passed / time_test + " "; ;
+                    test_data_dIn += test_vehicles_spawned + " ";
+                    test_data_dOut += test_vehicles_passed + " "; ;
                 }
             }
         }
@@ -300,8 +311,8 @@ namespace Main
                 o_x + Convert.ToInt64(vehicle.x + vehicle.length / 2 * Math.Cos(vehicle.angle) - 0 * Math.Sin(vehicle.angle)),
                 o_y + Convert.ToInt64(vehicle.y + vehicle.length / 2 * Math.Sin(vehicle.angle) + 0 * Math.Cos(vehicle.angle)));
 
-            if (traffic_lights == false)
-                gProj.DrawLine(p_road, Convert.ToInt64(395 - vehicle.dist_to_inter), 490, 395, Convert.ToInt64(490 - 20 * vehicle.dist_to_inter / vehicle.speed));
+            if (vehicle.T < 60)
+                gProj.DrawLine(p_road, Convert.ToInt64(395 - vehicle.dist_to_inter), 490, 395, Convert.ToInt64(490 - 20 * vehicle.dist_to_inter / vehicle.speed_request));
             gProj.DrawLine(p_red, 395, 0, 395, 500);
             gProj.DrawLine(p_red, 395 - simulation_bound, 0, 395 - simulation_bound, 500);
             gProj.DrawLine(p_red, 395 - reservationRadius, 0, 395 - reservationRadius, 500);

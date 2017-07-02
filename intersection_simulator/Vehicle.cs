@@ -306,8 +306,8 @@ namespace vehicle
         {
             // controller parameters
             double Kp = 500;
-            double Kd = 10;
-            double Ki = 1;
+            double Kd = 30;
+            double Ki = 0.1;
 
             //drag parameters
             double c = 1.5;

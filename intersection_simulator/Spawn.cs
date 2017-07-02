@@ -14,7 +14,7 @@ namespace Spawn_Vehicles
         public static double spawn_speed; // spawn speed
         public static int spawn_ID = 0; // vehicle spawn ID
         public static int last_ID = 0; // last ID (for the ghost vehicle)
-        public static string last_spawn = ""; // last spawn position
+        public static string last_spawn = "North"; // last spawn position
         public static string last_target = ""; // last spawn target
         public static bool random_target = true; // toggle random target
 
@@ -90,6 +90,7 @@ namespace Spawn_Vehicles
                 MainFrame.vehicles.Add(bil1);
                 MainFrame.vehicles_ghost.Add(bil01);
             }
+            last_spawn = "North";
         }
 
         public static void East()
@@ -108,6 +109,7 @@ namespace Spawn_Vehicles
                 MainFrame.vehicles.Add(bil1);
                 MainFrame.vehicles_ghost.Add(bil01);
             }
+            last_spawn = "East";
         }
 
         public static void South()
@@ -126,6 +128,7 @@ namespace Spawn_Vehicles
                 MainFrame.vehicles.Add(bil1);
                 MainFrame.vehicles_ghost.Add(bil01);
             }
+            last_spawn = "South";
         }
 
         public static void West()
@@ -144,6 +147,7 @@ namespace Spawn_Vehicles
                 MainFrame.vehicles.Add(bil1);
                 MainFrame.vehicles_ghost.Add(bil01);
             }
+            last_spawn = "West";
         }
 
 

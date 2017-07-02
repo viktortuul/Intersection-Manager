@@ -85,16 +85,24 @@ namespace trafficLight
                         if (vehicles_lane[i].speed > vehicles_lane[i - 1].speed)
                         {
                             vehicles_lane[i].speed = Kp * (vehicles_lane[i].dist_to_inter - dist_ref);
+                            if (vehicles_lane[i].speed > MainFrame.speed_limit)
+                                vehicles_lane[i].speed = MainFrame.speed_limit;
                         }
                         else
-                        {
+                       { 
                             vehicles_lane[i].speed_request = vehicles_lane[i - 1].speed;
+                            if (vehicles_lane[i].speed_request > MainFrame.speed_limit)
+                                vehicles_lane[i].speed_request = MainFrame.speed_limit;
                         }
                         //vehicles_lane[i].speed_request = Kp * (vehicles_lane[i].dist_to_inter - dist_ref) - Kd * (vehicles_lane[i].speed - vehicles_lane[i - 1].speed);
                     }
                     else
                     {
                         vehicles_lane[i].speed = Kp * (vehicles_lane[i].dist_to_inter - dist_ref);
+                        if (vehicles_lane[i].speed > MainFrame.speed_limit)
+                            vehicles_lane[i].speed = MainFrame.speed_limit;
+                        if (vehicles_lane[i].speed < 0.1)
+                            vehicles_lane[i].speed = 0;
                     }
 
 
